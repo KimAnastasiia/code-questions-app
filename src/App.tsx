@@ -1,67 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { useNavigate   } from "react-router-dom";
-import { backendUrl } from './Global';
-import { Button } from 'antd';
+import { Route, Routes, Link } from "react-router-dom"
+import Login from "./Login";
+import CheckEmailForRestorePassword from "./CheckEmailForRestorePassword";
+import RestorePassword from "./RestorePassword";
+import {  notification } from 'antd';
+import type { NotificationPlacement } from 'antd/es/notification/interface'
+import Registration from "./Registration";
 
+export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 function App() {
-  
-  let [userInfo, setUseInfo]=useState({
-    email:"",
-    password:""
-  })
+  const [api, contextHolder] = notification.useNotification();
 
-  let onchange=(e:any, name:string)=>{
-    setUseInfo({
-      ...userInfo,
-      [name]: e.target.value
-      })
-  }
-  
-  let onClicklogin=async()=>{
-    let dataToSent={
-      ...userInfo
-    }
-    let response = await fetch (backendUrl+"/public/users/verification",{
-    
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          email : dataToSent.email,
-          password: dataToSent.password
-      })
-    })
+  const openNotification = (placement: NotificationPlacement, text:string, type:NotificationType) => {
+    api[type]({
+      message: `Notification`,
+      description:text,
+      placement,
+    });
+  };
 
-    if(response.ok){
-        let data = await response.json()
-        
-        if(!data.apiKey){
-            if(data.messege === "Incorrect password"){
-                console.log(data.messege)
-            }
-        }
-        if(data.apiKey){
-            localStorage.setItem('apiKey', data.apiKey);
-            localStorage.setItem('email', data.email);
-            localStorage.setItem('id', data.id);
-            console.log(localStorage.getItem('apiKey'))
-        }
-    }
-
-
-}
   return (
-    <div>
-      
-    <input onChange={e=>{onchange(e, "email")}}></input>
-    <input  onChange={e=>{onchange(e, "password")}}></input>
-    <button onClick={onClicklogin}>Sign in </button>
-    <button>You dont have an account yet? </button>
-    <Button type="primary">Primary Button</Button>
-    </div>
+    <>
+    {contextHolder}
+    <Routes>
+        <Route path="/" element={<Login/>}/>  
+        <Route path="/checkEmail" element={<CheckEmailForRestorePassword/>}/>  
+        <Route path="/registration" element={<Registration  openNotification={openNotification}/>}/> 
+        <Route path="/changePassword/:email" element={<RestorePassword openNotification={openNotification}/>}/>  
+      </Routes>
+    </>
+
   );
 }
+
 export default App;
