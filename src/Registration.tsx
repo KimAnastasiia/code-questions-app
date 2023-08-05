@@ -202,16 +202,6 @@ const Registration :React.FC<RegistrationProps> = ({openNotification}) =>{
         </Button>
       </Form.Item>
 
-      <Form.Item  style={{justifyContent:"center", alignItems:"center", display:"flex"}}>
-      <GoogleLogin
-        onSuccess={credentialResponse => {
-            console.log(credentialResponse);
-        }}
-        onError={() => {
-            console.log('Login Failed');
-        }}
-        />
-      </Form.Item>
     </Form>
   </Row>
       );

@@ -4,6 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Alert, Form, Input, Row } from 'antd';
 import { useNavigate   } from "react-router-dom";
+import { useGoogleLogin } from '@react-oauth/google';
 const Login = () => {
   const navigate  = useNavigate();
   let [userInfo, setUseInfo]=useState({
@@ -94,6 +95,13 @@ const Login = () => {
 
   }
 
+  const login = useGoogleLogin({onSuccess: tokenResponse =>{
+
+     console.log(tokenResponse)
+     localStorage.setItem('access_token',tokenResponse.access_token);
+     navigate("/createTest")
+    },
+  });
     
   return (
   <Row align="middle" justify="center" style = {{ minHeight: '100vh', backgroundColor:"#EDEEF0"}}>
@@ -145,14 +153,7 @@ const Login = () => {
         </Button>
       </Form.Item>
       <Form.Item  style={{justifyContent:"center", alignItems:"center", display:"flex"}}>
-      <GoogleLogin
-        onSuccess={credentialResponse => {
-            console.log(credentialResponse);
-        }}
-        onError={() => {
-            console.log('Login Failed');
-        }}
-        />
+      <Button onClick={() => login()}>  Sign in with Google 🚀</Button>
       </Form.Item>
     </Form>
   </Row>
