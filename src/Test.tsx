@@ -15,11 +15,9 @@ export interface AnswersInterface {
   questionNumber:number,
   answerText:string
 }
-export interface TestProps {
-  setResults:setResultsFunction
-}
-const Test:React.FC<TestProps>=({setResults})=>{
 
+const Test:React.FC<{}>=()=>{
+    const [alert, setAlert]=useState<boolean>(false)
     const {email} = useParams()
     const {name} = useParams()
     const {id} = useParams()
@@ -76,7 +74,7 @@ const Test:React.FC<TestProps>=({setResults})=>{
     }
   }
   const onFinish=async()=>{
-    let response = await  fetch(backendUrl+`/question/${email}/${name}/${id}/`, {
+    let response = await  fetch(backendUrl+`/question/${email}/${name}/${id}?access_user_token=`+localStorage.getItem('access_user_token'), {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json'
@@ -90,18 +88,28 @@ const Test:React.FC<TestProps>=({setResults})=>{
         localStorage.setItem('mark',data.mark);
         navigate("/test/results/"+email+"/"+name+"/"+id)
       }
+    }else{
+      setAlert(true)
+      
     }
   }
   return (
 
-    <Row align="middle" justify="center" style = {{ minHeight: '100vh', backgroundColor:"#EDEEF0"}}>
+  <Row align="middle" justify="center" style = {{ minHeight: '100vh', backgroundColor:"#EDEEF0"}}>
 
     {questions.map((question, i )=>{
     if(i==index && i<questions.length){
 
       return (
       <div style={{backgroundColor:"white", minHeight:'70vh', width:"50%", padding:40}}>
-
+      { alert && 
+      <Alert
+          message="Error"
+          description="Ocurrió un error al completar la prueba, vuelva a realizar la prueba"
+          type="error"
+          showIcon
+          style={{marginBottom:20}}
+        />}
         <p>{(index+1) +"/"+questions.length+  question.questionText}</p>
 
         <CodeMirror

@@ -49,7 +49,7 @@ const ListTests = () => {
                 description={item.email}
                 />
                 <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}>Delete</Button>
-                <Button onClick={()=>{navigate("/test"+"/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
+                <Button onClick={()=>{navigate("/test/pass"+"/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
             </List.Item>
 
             )}

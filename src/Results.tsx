@@ -14,10 +14,7 @@ export interface AnswersInterface {
   questionNumber:number,
   answerText:string
 }
-export interface ResultsProps {
-    results:ResultsInterface[]
-  }
-const Results:React.FC<ResultsProps>=()=>{
+const Results:React.FC<{}>=()=>{
     const navigate  = useNavigate();
     const {email} = useParams()
     const {name} = useParams()
