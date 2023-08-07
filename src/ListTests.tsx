@@ -51,6 +51,7 @@ const ListTests = () => {
                 <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}>Delete</Button>
                 <Button onClick={()=>{navigate("/test/pass"+"/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
                 <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} >Resultats</Button>
+                <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} >Statistic</Button>
             </List.Item>
 
             )}
