@@ -13,6 +13,7 @@ import ListTests from "./ListTests";
 import Test from "./Test";
 import Results from "./Results";
 import BeforeTakingTheTest from "./BeforeTakingTheTest";
+import ResultsList from "./ResultsList";
 export interface ResultsInterface {
   questionNumber:number,
   answer:boolean,
@@ -44,6 +45,7 @@ function App() {
       {localStorage.getItem("access_token") && <Route path="/" element={<CreateTest openNotification={openNotification}/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/logOut" element={<LogOut/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/myTests" element={<ListTests/>}/>  }
+      {localStorage.getItem("access_token") &&  <Route path="/allResultsOfTest/:testId" element={<ResultsList/>}/>  }
       <Route path="/test/:email/:name/:id" element={<Test/>}/>
       <Route path="/test/withEmail/:email/:name/:id/" element={<Test />}/>
       <Route path="/test/results/:email/:name/:id" element={<Results/>}/>
