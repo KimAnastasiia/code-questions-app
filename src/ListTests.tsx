@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { Avatar, Row, List, Button } from 'antd';
 import { useNavigate   } from "react-router-dom";
 import { backendUrl } from './Global';
@@ -8,7 +8,11 @@ interface listOfTestsInterface {
     id:number,
     email:string
 }
-const ListTests = () => {
+export type NotificationType = 'success' | 'info' | 'warning' | 'error';
+interface ListTestsProps {
+  openNotification:(placement: NotificationPlacement, text:string,  type:NotificationType) => void,
+}
+const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
 
   const navigate  = useNavigate();
 
@@ -24,6 +28,18 @@ const ListTests = () => {
       setListOfTests(data)
     }
   }
+  const handleDeleteResultsOfTest = async (id: number) => {
+
+    let response = await fetch(backendUrl + '/testresults?testId=' + id + "&access_token=" + localStorage.getItem("access_token"), {
+      method: 'DELETE'
+    })
+    if (response.ok) {
+      handleDelete(id)
+    }else{
+      openNotification("top", "Ocurrió un error al eliminar los resultados de la prueba", "error")
+    }
+
+  };
   const handleDelete =async (id:number) => {
 
     let response = await fetch(backendUrl + '/test?testId='+id+"&access_token="+localStorage.getItem("access_token"), {
@@ -31,6 +47,8 @@ const ListTests = () => {
     })
     if(response.ok){
         getAllTests()
+    }else{
+      openNotification("top", "Se produjo un error al eliminar la prueba", "error")
     }
     
   };
@@ -48,7 +66,7 @@ const ListTests = () => {
                 title={item.name}
                 description={item.email}
                 />
-                <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}>Delete</Button>
+                <Button  danger style={{marginRight:10}} onClick={()=>{handleDeleteResultsOfTest(item.id)}}>Delete</Button>
                 <Button onClick={()=>{navigate("/test/pass"+"/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
                 <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} >Resultats</Button>
                 <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} >Statistic</Button>
