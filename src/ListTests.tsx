@@ -45,7 +45,7 @@ const ListTests = () => {
 
             <List.Item key={item.email}>
                 <List.Item.Meta
-                title={<a href="https://ant.design">{item.name}</a>}
+                title={item.name}
                 description={item.email}
                 />
                 <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}>Delete</Button>

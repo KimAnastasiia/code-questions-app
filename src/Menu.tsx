@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, UploadOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, CloudServerOutlined, UploadOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu , Button} from 'antd';
 import {LogoutOutlined, FormOutlined, ContainerOutlined, CheckOutlined} from '@ant-design/icons';
@@ -20,8 +20,15 @@ const items: MenuProps['items'] = [
     icon: <UploadOutlined />,
   },
   {
+    label:  <a href="/myTestsFromDB" >
+       Todas las pruebas hechas
+    </a>,
+    key:'allTestsFromDB',
+    icon:<CloudServerOutlined />,
+  },
+  {
     label:  <a href="/myTests" >
-       Todas tus pruebas
+       Todas las pruebas cargadas
     </a>,
     key:'allTests',
     icon:<ContainerOutlined />,
@@ -46,7 +53,7 @@ const MenuFunction :React.FC = () =>{
       setCurrent(e.key);
     };
 
-  return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" style={{display:"flex", justifyContent:"center", width:"40%"}} items={items} />
+  return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" style={{display:"flex", justifyContent:"center", width:"60%"}} items={items} />
 };
 
 export default MenuFunction;
