@@ -61,6 +61,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
   }
 
   const createTest = async () => {
+    addTest()
     let testToSent=createdTest.current
     let response = await fetch(backendUrl + "/createdTests?access_token=" + localStorage.getItem('access_token'), {
 
@@ -70,7 +71,22 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
       },
       body: JSON.stringify(testToSent)
     })
+
   }
+  
+  let addTest = async () => {
+
+    let response = await fetch(backendUrl + "/test/createdTest?access_token=" + localStorage.getItem("access_token")+"&testName="+testName, {
+        method: 'POST'
+    })
+    if (response.ok) {
+        openNotification("top", "Prueba creada con éxito", "success")
+    } else {
+        openNotification("top", "Prueba no creada ", "error")
+    }
+}
+
+
   const deleteQuestionFromList = (indexToDelete: number) => {
     let newListOfTests = createdTest.current.filter((test) => test.index != indexToDelete)
     createdTest.current=newListOfTests
@@ -204,9 +220,9 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
           )}
         </Form.List>
 
-        <Form.Item style={{ justifyContent: "center", alignItems: "center", display: "flex" }}>
-          <Button type="primary" onClick={()=>{ addNewQuestion(); createTest()}}>
-            Crear la prueba
+        <Form.Item style={{ width:"100%"}}>
+          <Button style={{width:"100%"}} type="primary" onClick={()=>{ addNewQuestion(); createTest()}}>
+            Crear la prueba 
           </Button>
         </Form.Item>
 

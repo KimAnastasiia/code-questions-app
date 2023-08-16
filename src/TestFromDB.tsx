@@ -28,7 +28,7 @@ const TestFromDB: React.FC<{}> = () => {
     let [index, setIndex] = useState<number>(0)
 
     const navigate = useNavigate()
-    
+
     useEffect(() => {
         fechData();
     }, [])
