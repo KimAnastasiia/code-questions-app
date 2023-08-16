@@ -50,7 +50,7 @@ function App() {
       {localStorage.getItem("access_token") && <Route path="/" element={<CreateTest openNotification={openNotification}/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/logOut" element={<LogOut/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/myTests" element={<ListTests/>}/>  }
-      {localStorage.getItem("access_token") &&  <Route path="/myTestsFromDB" element={<ListTestsFromDB/>}/>  }
+      {localStorage.getItem("access_token") &&  <Route path="/myTestsFromDB" element={<ListTestsFromDB openNotification={openNotification}/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/allResultsOfTest/:testId" element={<ResultsList/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/answersStatistic/:testId" element={<AnswersStatistic/>}/>  }
       {localStorage.getItem("access_token") && <Route path="/uploadTest" element={<UploadTest openNotification={openNotification}/>}/>  }

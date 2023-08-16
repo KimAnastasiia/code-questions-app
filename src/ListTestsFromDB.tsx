@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Avatar, Row, List, Button } from 'antd';
+import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { useNavigate } from "react-router-dom";
 import { backendUrl } from './Global';
-
+export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 interface ListTestsFromDBInterface {
   name: string,
   email: string,
   id: number
 }
-const ListTestsFromDB = () => {
+
+interface ListTestsFromDBProps {
+  openNotification:(placement: NotificationPlacement, text:string,  type:NotificationType) => void,
+}
+const ListTestsFromDB :React.FC<ListTestsFromDBProps> = ({openNotification}) => {
 
   const navigate = useNavigate();
 
@@ -33,7 +38,10 @@ const ListTestsFromDB = () => {
     })
     if (response.ok) {
       handleDeleteResultsOfTest(id)
+    }else{
+      openNotification("top", "Ocurrió un error al eliminar las preguntas de la prueba", "error")
     }
+
 
   };
   const handleDeleteResultsOfTest = async (id: number) => {
@@ -43,6 +51,8 @@ const ListTestsFromDB = () => {
     })
     if (response.ok) {
       handleDeleteFromTestTest(id)
+    }else{
+      openNotification("top", "Ocurrió un error al eliminar los resultados de la prueba", "error")
     }
 
   };
@@ -53,6 +63,9 @@ const ListTestsFromDB = () => {
     })
     if(response.ok){
         getAllTests()
+        openNotification("top", "Prueba eliminada con éxito", "success")
+    }else{
+      openNotification("top", "Se produjo un error al eliminar la prueba", "error")
     }
     
   };
