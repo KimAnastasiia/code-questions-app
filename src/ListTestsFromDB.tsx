@@ -5,7 +5,7 @@ import { useNavigate   } from "react-router-dom";
 import { backendUrl } from './Global';
 
 interface ListTestsFromDBInterface {
-    nameOfTest:string,
+    name:string,
     email:string
 }
 const ListTestsFromDB = () => {
@@ -19,7 +19,7 @@ const ListTestsFromDB = () => {
   },[]);
 
   const getAllTests=async()=>{
-    let response = await fetch(backendUrl + "/createdTests?access_token="+localStorage.getItem("access_token") )
+    let response = await fetch(backendUrl + "/test/created?access_token="+localStorage.getItem("access_token") )
     if(response.ok){
       let data = await response.json()
       setListOfTests(data)
@@ -37,10 +37,10 @@ const ListTestsFromDB = () => {
 
             <List.Item key={item.email}>
                 <List.Item.Meta
-                title={item.nameOfTest}
+                title={item.name}
                 description={item.email}
                 />
-               <Button onClick={()=>{navigate("/testFromDB"+"/"+item.email+"/"+item.nameOfTest)}}>Aprobar el examen</Button>
+               <Button onClick={()=>{navigate("/testFromDB"+"/"+item.email+"/"+item.name)}}>Aprobar el examen</Button>
             </List.Item>
 
             )}
