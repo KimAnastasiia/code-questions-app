@@ -17,6 +17,7 @@ import ResultsList from "./ResultsList";
 import AnswersStatistic from "./AnswersStatistic";
 import UploadTest from "./UploadTest";
 import ListTestsFromDB from "./ListTestsFromDB";
+import TestFromDB from "./TestFromDB";
 export interface ResultsInterface {
   questionNumber:number,
   answer:boolean,
@@ -53,7 +54,8 @@ function App() {
       {localStorage.getItem("access_token") &&  <Route path="/answersStatistic/:testId" element={<AnswersStatistic/>}/>  }
       {localStorage.getItem("access_token") && <Route path="/uploadTest" element={<UploadTest openNotification={openNotification}/>}/>  }
       <Route path="/test/:email/:name/:id" element={<Test/>}/>
-      <Route path="/test/withEmail/:email/:name/:id/" element={<Test />}/>
+      <Route path="/test/:email/:name/:id" element={<Test/>}/>
+      <Route path="/testFromDB/:email/:nameOfTest/" element={<TestFromDB />}/>
       <Route path="/test/results/:email/:name/:id" element={<Results/>}/>
       <Route path="/test/pass/:email/:name/:id" element={<BeforeTakingTheTest/>}/>
     </Routes>

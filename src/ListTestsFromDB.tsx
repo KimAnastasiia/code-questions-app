@@ -40,7 +40,7 @@ const ListTestsFromDB = () => {
                 title={item.nameOfTest}
                 description={item.email}
                 />
-              
+               <Button onClick={()=>{navigate("/testFromDB"+"/"+item.email+"/"+item.nameOfTest)}}>Aprobar el examen</Button>
             </List.Item>
 
             )}
