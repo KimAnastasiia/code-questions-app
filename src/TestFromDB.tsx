@@ -19,6 +19,7 @@ const TestFromDB: React.FC<{}> = () => {
     const [alert, setAlert] = useState<boolean>(false)
     const { email } = useParams()
     const { nameOfTest } = useParams()
+    const { id } = useParams()
 
     const [questions, setQuestions] = useState<test[]>([])
 
@@ -31,12 +32,13 @@ const TestFromDB: React.FC<{}> = () => {
 
     useEffect(() => {
         fechData();
+   
     }, [])
 
 
 
     let fechData = async () => {
-        let response = await fetch(backendUrl + `/questionDB/${email}/${nameOfTest}`)
+        let response = await fetch(backendUrl + `/questionDB/${id}`)
         if (response.ok) {
             let data = await response.json();
             setQuestions(data);
@@ -70,7 +72,26 @@ const TestFromDB: React.FC<{}> = () => {
         ]);
         setIsAnswerSelected(false);
     };
-
+    const onFinish=async()=>{
+        let response = await  fetch(backendUrl+`/questionDB/${email}/${nameOfTest}/${id}?access_user_token=`+localStorage.getItem('access_user_token'), {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(answer)
+        })
+        if(response.ok){
+          let data = await response.json()
+          if(data.listOfMarks){
+            localStorage.setItem('listOfResults',JSON.stringify(data.listOfMarks));
+            localStorage.setItem('mark',data.mark);
+            navigate("/testCreated/results/"+email+"/"+nameOfTest+"/"+id)
+          }
+        }else{
+          setAlert(true)
+          
+        }
+      }
     return (
 
         <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
@@ -99,16 +120,16 @@ const TestFromDB: React.FC<{}> = () => {
                             <Radio.Group onChange={(e) => { onChange(e, (i + 1)) }} value={answer.find((a) => a.questionNumber == i + 1)?.answerText} style={{ marginTop: 40, marginBottom: 40 }}>
 
                                 <Space direction="vertical">
-                                    <Radio value={"A"}>{question.answer1}</Radio>
-                                    <Radio value={"B"}>{question.answer2}</Radio>
-                                    <Radio value={"C"}>{question.answer3}</Radio>
-                                    <Radio value={"D"}>{question.answer4}</Radio>
+                                    <Radio value={1}>{question.answer1}</Radio>
+                                    <Radio value={2}>{question.answer2}</Radio>
+                                    <Radio value={3}>{question.answer3}</Radio>
+                                    <Radio value={4}>{question.answer4}</Radio>
                                 </Space>
 
                             </Radio.Group>
 
                             <Button style={{ width: "100%", display: index + 1 == questions.length ? "none" : "block", marginBottom: 20 }} type='primary' disabled={isAnswerSelected} onClick={nextQuastion}>Próxima pregunta</Button>
-                            <Button style={{ width: "100%", marginBottom: 20, display: index == (questions.length - 1) ? "block" : "none" }} type='primary' disabled={isAnswerSelected} >Finalizar</Button>
+                            <Button style={{ width: "100%", marginBottom: 20, display: index == (questions.length - 1) ? "block" : "none" }} type='primary' disabled={isAnswerSelected} onClick={onFinish} >Finalizar</Button>
                             <Button style={{ width: "100%", display: index == 0 ? "none" : "block" }} onClick={prevQuestion}>Devolver</Button>
 
 

@@ -6,7 +6,8 @@ import { backendUrl } from './Global';
 
 interface ListTestsFromDBInterface {
     name:string,
-    email:string
+    email:string,
+    id:number
 }
 const ListTestsFromDB = () => {
 
@@ -40,7 +41,7 @@ const ListTestsFromDB = () => {
                 title={item.name}
                 description={item.email}
                 />
-               <Button onClick={()=>{navigate("/testFromDB"+"/"+item.email+"/"+item.name)}}>Aprobar el examen</Button>
+               <Button onClick={()=>{navigate("/testCreated/pass/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
             </List.Item>
 
             )}
