@@ -25,6 +25,7 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
     let response = await fetch(backendUrl + "/test?access_token="+localStorage.getItem("access_token") )
     if(response.ok){
       let data = await response.json()
+      data= data.sort((a: { id: number; }, b: { id: number; },)=>b.id-a.id)
       setListOfTests(data)
     }
   }
