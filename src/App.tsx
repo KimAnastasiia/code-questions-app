@@ -19,6 +19,8 @@ import UploadTest from "./UploadTest";
 import ListTestsFromDB from "./ListTestsFromDB";
 import TestFromDB from "./TestFromDB";
 import BeforeTakingTheTestCreated from "./BeforeTakingTheTestCreated";
+import ResultsOfCreatedTest from "./ResultsOfCreatedTest";
+
 export interface ResultsInterface {
   questionNumber:number,
   answer:boolean,
@@ -58,8 +60,9 @@ function App() {
       <Route path="/test/:email/:name/:id" element={<Test/>}/>
       <Route path="/testFromDB/:email/:nameOfTest/:id" element={<TestFromDB />}/>
       <Route path="/test/results/:email/:name/:id" element={<Results/>}/>
+      <Route path="/createdTest/results/:email/:nameOfTest/:id" element={<ResultsOfCreatedTest/>}/>
       <Route path="/test/pass/:email/:name/:id" element={<BeforeTakingTheTest/>}/>
-      <Route path="/testCreated/pass/:email/:name/:id" element={<BeforeTakingTheTestCreated/>}/>
+      <Route path="/testCreated/pass/:email/:nameOfTest/:id" element={<BeforeTakingTheTestCreated/>}/>
     </Routes>
     </>
 

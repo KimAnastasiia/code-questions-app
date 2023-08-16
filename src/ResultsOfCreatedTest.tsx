@@ -10,18 +10,19 @@ import { Input, Radio, Space, } from 'antd';
 import { Button, Alert, Form, Statistic  } from 'antd';
 import { async } from 'q';
 import { ResultsInterface } from "./App"
+import test from './Models/test';
 export interface AnswersInterface {
   questionNumber:number,
   answerText:string
 }
-const Results:React.FC<{}>=()=>{
+const ResultsOfCreatedTest:React.FC<{}>=()=>{
     const navigate  = useNavigate();
     const {email} = useParams()
-    const {name} = useParams()
+    const {nameOfTest} = useParams()
     const {id} = useParams()
     const[rightAnswers, setRightAnswers]= useState<string>("")
     
-    const[questions,setQuestions] = useState<quastion[]>([])
+    const[questions,setQuestions] = useState<test[]>([])
     const [answer, setAnswer] = useState<AnswersInterface[]>([])
     let [results, setResults]=useState<ResultsInterface[]>([])
    useEffect (() => {
@@ -42,7 +43,7 @@ const Results:React.FC<{}>=()=>{
   }, [])
 
   let fechData = async () => {
-    let response = await fetch(backendUrl+`/question/${email}/${name}/${id}/`)
+    let response = await fetch(backendUrl+`/questionDB/${id}/`)
     if (response.ok){
       let data = await response.json();
       setQuestions(data);
@@ -72,7 +73,7 @@ const Results:React.FC<{}>=()=>{
     let onClickIntentarOtraVez=()=>{
         localStorage.removeItem('listOfResults');
         localStorage.removeItem('mark');
-        navigate("/test/pass"+"/"+email+"/"+name+"/"+id)
+        navigate("/testCreated/pass"+"/"+email+"/"+nameOfTest+"/"+id)
     }
     
   return (
@@ -90,7 +91,7 @@ const Results:React.FC<{}>=()=>{
                 return(
                     <div style={{backgroundColor:"white", padding:40}}>
                
-                        <p>{(i+1) + question.questionText}</p>
+                        <p>{(i+1) + question.question}</p>
 
                         <CodeMirror
                         value={question.code}
@@ -102,10 +103,10 @@ const Results:React.FC<{}>=()=>{
                         <Radio.Group onChange={(e)=>{onChange2(e, (i+1))}} style={{marginTop:40, marginBottom:40}} value={result.userAnswer}>
                     
                             <Space direction="vertical">
-                                <Radio value={"A"}>{question.optionA}</Radio>
-                                <Radio value={"B"}>{question.optionB}</Radio>
-                                <Radio value={"C"}>{question.optionC}</Radio>
-                                <Radio value={"D"}>{question.optionD}</Radio>
+                                <Radio value={1}>{question.answer1}</Radio>
+                                <Radio value={2}>{question.answer2}</Radio>
+                                <Radio value={3}>{question.answer3}</Radio>
+                                <Radio value={4}>{question.answer4}</Radio>
                             </Space>
                     
                         </Radio.Group>
@@ -123,4 +124,4 @@ const Results:React.FC<{}>=()=>{
  
   );
 }
-export default Results;
+export default ResultsOfCreatedTest;

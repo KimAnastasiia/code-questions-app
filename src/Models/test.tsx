@@ -4,7 +4,6 @@ export interface test {
     answer2:string, 
     answer3:string,
     answer4:string, 
-    rightAnswer:string,
     nameOfTest:string,
     index:number,
     code:string

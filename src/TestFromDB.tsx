@@ -85,7 +85,7 @@ const TestFromDB: React.FC<{}> = () => {
           if(data.listOfMarks){
             localStorage.setItem('listOfResults',JSON.stringify(data.listOfMarks));
             localStorage.setItem('mark',data.mark);
-            navigate("/testCreated/results/"+email+"/"+nameOfTest+"/"+id)
+            navigate("/createdTest/results/"+email+"/"+nameOfTest+"/"+id)
           }
         }else{
           setAlert(true)
