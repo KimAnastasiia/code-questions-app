@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, MailOutlined, UploadOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu , Button} from 'antd';
 import {LogoutOutlined, FormOutlined, ContainerOutlined, CheckOutlined} from '@ant-design/icons';
@@ -11,6 +11,13 @@ const items: MenuProps['items'] = [
     </a>,
     key:'createTest',
     icon: <FormOutlined />,
+  },
+  {
+    label:  <a href="/uploadTest" >
+    Subir prueba
+    </a>,
+    key:'uploadTest',
+    icon: <UploadOutlined />,
   },
   {
     label:  <a href="/myTests" >
