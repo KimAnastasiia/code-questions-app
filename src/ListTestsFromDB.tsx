@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Avatar, Row, List, Button } from 'antd';
+import { LockOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { useNavigate } from "react-router-dom";
 import { backendUrl } from './Global';
@@ -84,7 +85,7 @@ const ListTestsFromDB :React.FC<ListTestsFromDBProps> = ({openNotification}) => 
               title={item.name}
               description={item.email}
             />
-            <Button danger style={{ marginRight: 10 }} onClick={() => { handleDelete(item.id) }}>Delete</Button>
+            <Button danger style={{ marginRight: 10 }} onClick={() => { handleDelete(item.id) }}> <DeleteOutlined />Delete</Button>
             <Button onClick={() => { navigate("/testCreated/pass/" + item.email + "/" + item.name + "/" + item.id) }}>Aprobar el examen</Button>
 
           </List.Item>

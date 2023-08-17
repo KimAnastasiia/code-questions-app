@@ -3,6 +3,7 @@ import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { Avatar, Row, List, Button } from 'antd';
 import { useNavigate   } from "react-router-dom";
 import { backendUrl } from './Global';
+import { AreaChartOutlined, DeleteOutlined } from '@ant-design/icons';
 interface listOfTestsInterface {
     name:string,
     id:number,
@@ -67,10 +68,10 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
                 title={item.name}
                 description={item.email}
                 />
-                <Button  danger style={{marginRight:10}} onClick={()=>{handleDeleteResultsOfTest(item.id)}}>Delete</Button>
+                <Button  danger style={{marginRight:10}} onClick={()=>{handleDeleteResultsOfTest(item.id)}}><DeleteOutlined/>Delete</Button>
                 <Button onClick={()=>{navigate("/test/pass"+"/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
                 <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} >Resultats</Button>
-                <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} >Statistic</Button>
+                <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} ><AreaChartOutlined />Statistic</Button>
             </List.Item>
 
             )}
