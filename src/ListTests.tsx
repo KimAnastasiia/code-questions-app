@@ -30,25 +30,39 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
       setListOfTests(data)
     }
   }
+  const handleDelete = async (id: number) => {
+
+    let response = await fetch(backendUrl + '/createdTests?testId=' + id + "&access_token=" + localStorage.getItem("access_token"), {
+      method: 'DELETE'
+    })
+    if (response.ok) {
+      handleDeleteResultsOfTest(id)
+    }else{
+      openNotification("top", "Ocurrió un error al eliminar las preguntas de la prueba", "error")
+    }
+
+
+  };
   const handleDeleteResultsOfTest = async (id: number) => {
 
     let response = await fetch(backendUrl + '/testresults?testId=' + id + "&access_token=" + localStorage.getItem("access_token"), {
       method: 'DELETE'
     })
     if (response.ok) {
-      handleDelete(id)
+      handleDeleteFromTest(id)
     }else{
       openNotification("top", "Ocurrió un error al eliminar los resultados de la prueba", "error")
     }
 
   };
-  const handleDelete =async (id:number) => {
+  const handleDeleteFromTest =async (id:number) => {
 
     let response = await fetch(backendUrl + '/test?testId='+id+"&access_token="+localStorage.getItem("access_token"), {
       method: 'DELETE'
     })
     if(response.ok){
         getAllTests()
+        openNotification("top", "Prueba eliminada con éxito", "success")
     }else{
       openNotification("top", "Se produjo un error al eliminar la prueba", "error")
     }
@@ -68,7 +82,7 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
                 title={item.name}
                 description={item.email}
                 />
-                <Button  danger style={{marginRight:10}} onClick={()=>{handleDeleteResultsOfTest(item.id)}}><DeleteOutlined/>Delete</Button>
+                <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}><DeleteOutlined/>Delete</Button>
                 <Button onClick={()=>{navigate("/test/pass"+"/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
                 <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} >Resultats</Button>
                 <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} ><AreaChartOutlined />Statistic</Button>

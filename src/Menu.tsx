@@ -20,15 +20,8 @@ const items: MenuProps['items'] = [
     icon: <UploadOutlined />,
   },
   {
-    label:  <a href="/myTestsFromDB" >
-       Todas las pruebas hechas
-    </a>,
-    key:'allTestsFromDB',
-    icon:<CloudServerOutlined />,
-  },
-  {
     label:  <a href="/myTests" >
-       Todas las pruebas cargadas
+       Todas las pruebas
     </a>,
     key:'allTests',
     icon:<ContainerOutlined />,

@@ -16,10 +16,6 @@ import BeforeTakingTheTest from "./BeforeTakingTheTest";
 import ResultsList from "./ResultsList";
 import AnswersStatistic from "./AnswersStatistic";
 import UploadTest from "./UploadTest";
-import ListTestsFromDB from "./ListTestsFromDB";
-import TestFromDB from "./TestFromDB";
-import BeforeTakingTheTestCreated from "./BeforeTakingTheTestCreated";
-import ResultsOfCreatedTest from "./ResultsOfCreatedTest";
 
 export interface ResultsInterface {
   questionNumber:number,
@@ -52,17 +48,13 @@ function App() {
       {localStorage.getItem("access_token") && <Route path="/" element={<CreateTest openNotification={openNotification}/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/logOut" element={<LogOut/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/myTests" element={<ListTests openNotification={openNotification}/>}/>  }
-      {localStorage.getItem("access_token") &&  <Route path="/myTestsFromDB" element={<ListTestsFromDB openNotification={openNotification}/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/allResultsOfTest/:testId" element={<ResultsList/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/answersStatistic/:testId" element={<AnswersStatistic/>}/>  }
       {localStorage.getItem("access_token") && <Route path="/uploadTest" element={<UploadTest openNotification={openNotification}/>}/>  }
       <Route path="/test/:email/:name/:id" element={<Test/>}/>
       <Route path="/test/:email/:name/:id" element={<Test/>}/>
-      <Route path="/testFromDB/:email/:nameOfTest/:id" element={<TestFromDB />}/>
       <Route path="/test/results/:email/:name/:id" element={<Results/>}/>
-      <Route path="/createdTest/results/:email/:nameOfTest/:id" element={<ResultsOfCreatedTest/>}/>
       <Route path="/test/pass/:email/:name/:id" element={<BeforeTakingTheTest/>}/>
-      <Route path="/testCreated/pass/:email/:nameOfTest/:id" element={<BeforeTakingTheTestCreated/>}/>
     </Routes>
     </>
 
