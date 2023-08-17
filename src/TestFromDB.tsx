@@ -120,10 +120,10 @@ const TestFromDB: React.FC<{}> = () => {
                             <Radio.Group onChange={(e) => { onChange(e, (i + 1)) }} value={answer.find((a) => a.questionNumber == i + 1)?.answerText} style={{ marginTop: 40, marginBottom: 40 }}>
 
                                 <Space direction="vertical">
-                                    <Radio value={1}>{question.answer1}</Radio>
-                                    <Radio value={2}>{question.answer2}</Radio>
-                                    <Radio value={3}>{question.answer3}</Radio>
-                                    <Radio value={4}>{question.answer4}</Radio>
+                                    <Radio value={"A"}>{question.answer1}</Radio>
+                                    <Radio value={"B"}>{question.answer2}</Radio>
+                                    <Radio value={"C"}>{question.answer3}</Radio>
+                                    <Radio value={"D"}>{question.answer4}</Radio>
                                 </Space>
 
                             </Radio.Group>

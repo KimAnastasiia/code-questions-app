@@ -94,8 +94,8 @@ const UploadTest :React.FC<UploadTestProps> = ({openNotification}) =>{
             </Upload>
         </Form.Item>
 
-        <Form.Item style={{justifyContent:"center", alignItems:"center", display:"flex"}}>
-            <Button type="primary" htmlType="submit" >
+        <Form.Item style={{ width: "100%" }}>
+            <Button style={{ width: "100%" }} type="primary" htmlType="submit" >
                 Crear
             </Button>
         </Form.Item>

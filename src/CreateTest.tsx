@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { UploadOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Select, Alert, Form, Input, Row, Space } from 'antd';
 import { useNavigate } from "react-router-dom";
 import type { NotificationPlacement } from 'antd/es/notification/interface'
@@ -120,6 +120,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
         <Form.Item
           rules={[{ required: true, message: 'Please input name of test!' }]}
           label="Nombre de la prueba "
+          labelCol={{ span: 24 }}
         >
           <Input value={testName} prefix={<FormOutlined />} placeholder="Nombre de la prueba" onChange={(e) => { onChange(e) }} />
         </Form.Item>
@@ -137,6 +138,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     name={[field.name, 'pregunta']}
                     rules={[{ required: true, message: 'Desaparecida pregunta' }]}
                     style={{ minWidth: 600, marginTop: 20 }}
+                    labelCol={{ span: 24 }}
                   >
                     <TextArea onChange={(e) => { setQuestion(e.currentTarget.value) }} />
                   </Form.Item>
@@ -146,6 +148,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     name={[field.name, 'code']}
                     rules={[{ required: true, message: 'Desaparecida codigo' }]}
                     style={{ minWidth: 600, marginTop: 20 }}
+                    labelCol={{ span: 24 }}
                   >
 
                     <CodeMirror
@@ -157,64 +160,68 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    label={"la respuesta 1 de la pregunta " + (field.key + 1)}
+                    label={"la respuesta A de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta1']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ width: 500 }}
-
+                    labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer1(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    label={"la respuesta 2 de la pregunta " + (field.key + 1)}
+                    label={"la respuesta B de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta2']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ width: 500 }}
+                    labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer2(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    label={"la respuesta 3 de la pregunta " + (field.key + 1)}
+                    label={"la respuesta C de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta3']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ width: 500 }}
+                    labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer3(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    label={"la respuesta 4 de la pregunta " + (field.key + 1)}
+                    label={"la respuesta E de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta4']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ width: 500 }}
+                    labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer4(e.currentTarget.value) }}></Input>
                   </Form.Item>
 
                   <Form.Item
                     {...field}
-                    label="respuesta de verda (numero)"
+                    label="respuesta de verda "
                     name={[field.name, 'respuesta']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ marginRight: 20, fontWeight: 'bold' }}
+                    labelCol={{ span: 24 }}
                   >
                     <Select
                       onChange={(e) => { setRightAnswer(e) }}
                       options={[
-                        { value: 1, label: 1 },
-                        { value: 2, label: 2 },
-                        { value: 3, label: 3 },
-                        { value: 4, label: 4, },
+                        { value: "A", label: "A" },
+                        { value: "B", label: "B" },
+                        { value: "C", label: "C" },
+                        { value: "D", label: "D", },
                       ]}
                     />
                   </Form.Item>
 
-                  <Button onClick={() => {
+                  <Button danger onClick={() => {
                     deleteQuestionFromList(field.key + 1);
                     remove(field.name)
-                  }} style={{ margin: 20 }}> Borrar la pregunta</Button>
+                  }} style={{ margin: 20 }}> <DeleteOutlined />Borrar la pregunta</Button>
 
                 </Space>
               ))}
