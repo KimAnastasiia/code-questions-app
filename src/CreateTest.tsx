@@ -7,7 +7,9 @@ import type { NotificationPlacement } from 'antd/es/notification/interface'
 import type { UploadProps } from 'antd';
 import { backendUrl } from './Global';
 import { LockOutlined, FormOutlined } from '@ant-design/icons';
+import { javascript } from '@codemirror/lang-javascript';
 import test from './Models/test';
+import CodeMirror from '@uiw/react-codemirror';
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 interface CreateTestProps {
@@ -26,14 +28,14 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
   const [answer3, setAnswer3] = useState<string>("")
   const [answer4, setAnswer4] = useState<string>("")
   const [rightAnswer, setRightAnswer] = useState<string>("")
-  const [code, setCode]=useState<string>("")
+  const [code, setCode] = useState<string>("")
   let nextIndex = useRef<number>(0)
   const createdTest = useRef<test[]>([])
 
   let save = (index: number) => {
     const newTest = {
       question: question,
-      code:code,
+      code: code,
       answer1: answer1,
       answer2: answer2,
       answer3: answer3,
@@ -42,7 +44,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
       nameOfTest: testName,
       index: index
     };
-    createdTest.current=[...createdTest.current, newTest]
+    createdTest.current = [...createdTest.current, newTest]
     setAnswer1("")
     setAnswer2("")
     setAnswer3("")
@@ -60,9 +62,9 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
     setTestName(e.currentTarget.value)
   }
 
-  const createTest = async (id:number) => {
-    let testToSent=createdTest.current
-    let response = await fetch(backendUrl + "/createdTests?access_token=" + localStorage.getItem('access_token')+"&testId="+id, {
+  const createTest = async (id: number) => {
+    let testToSent = createdTest.current
+    let response = await fetch(backendUrl + "/createdTests?access_token=" + localStorage.getItem('access_token') + "&testId=" + id, {
 
       method: 'POST',
       headers: {
@@ -72,40 +74,43 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
     })
 
   }
-  
+
   let addTest = async () => {
 
-    let response = await fetch(backendUrl + "/test/createdTest?access_token=" + localStorage.getItem("access_token")+"&testName="+testName, {
-        method: 'POST'
+    let response = await fetch(backendUrl + "/test/createdTest?access_token=" + localStorage.getItem("access_token") + "&testName=" + testName, {
+      method: 'POST'
     })
     if (response.ok) {
       let data = await response.json()
       createTest(data.insertId)
       openNotification("top", "Prueba creada con éxito", "success")
     } else {
-        openNotification("top", "Prueba no creada ", "error")
+      openNotification("top", "Prueba no creada ", "error")
     }
-}
+  }
 
 
   const deleteQuestionFromList = (indexToDelete: number) => {
     let newListOfTests = createdTest.current.filter((test) => test.index != indexToDelete)
-    createdTest.current=newListOfTests
+    createdTest.current = newListOfTests
   }
   const addNewQuestion = () => {
 
-    if(nextIndex.current!=0){
+    if (nextIndex.current != 0) {
       save(nextIndex.current)
     }
 
-    nextIndex.current=nextIndex.current+1
+    nextIndex.current = nextIndex.current + 1
   }
+  const onChangeCode = React.useCallback((value: any, viewUpdate: any) => {
+    setCode(value)
+  }, []);
   return (
     <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
 
       <Form
         initialValues={{ remember: true }}
-        
+
         style={{ backgroundColor: "white", padding: 20, borderRadius: "20px" }}
       >
         <Form.Item style={{ justifyContent: "center", alignItems: "center", display: "flex" }}>
@@ -133,7 +138,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     rules={[{ required: true, message: 'Desaparecida pregunta' }]}
                     style={{ minWidth: 600, marginTop: 20 }}
                   >
-                    <TextArea onChange={(e) => {   setQuestion(e.currentTarget.value) }} />
+                    <TextArea onChange={(e) => { setQuestion(e.currentTarget.value) }} />
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -142,7 +147,13 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     rules={[{ required: true, message: 'Desaparecida codigo' }]}
                     style={{ minWidth: 600, marginTop: 20 }}
                   >
-                    <TextArea onChange={(e) => { setCode(e.currentTarget.value) }} />
+
+                    <CodeMirror
+                      value={code}
+                      extensions={[javascript({ jsx: true })]}
+                      onChange={onChangeCode}
+                      editable={true}
+                    />
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -189,13 +200,13 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ marginRight: 20, fontWeight: 'bold' }}
                   >
-                      <Select
+                    <Select
                       onChange={(e) => { setRightAnswer(e) }}
                       options={[
                         { value: 1, label: 1 },
-                        { value: 2, label:2 },
-                        { value:3, label:3 },
-                        { value:4, label: 4,},
+                        { value: 2, label: 2 },
+                        { value: 3, label: 3 },
+                        { value: 4, label: 4, },
                       ]}
                     />
                   </Form.Item>
@@ -204,7 +215,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     deleteQuestionFromList(field.key + 1);
                     remove(field.name)
                   }} style={{ margin: 20 }}> Borrar la pregunta</Button>
-                 
+
                 </Space>
               ))}
 
@@ -221,9 +232,9 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
           )}
         </Form.List>
 
-        <Form.Item style={{ width:"100%"}}>
-          <Button style={{width:"100%"}} type="primary" onClick={()=>{ addNewQuestion(); addTest()}}>
-            Crear la prueba 
+        <Form.Item style={{ width: "100%" }}>
+          <Button style={{ width: "100%" }} type="primary" onClick={() => { addNewQuestion(); addTest() }}>
+            Crear la prueba
           </Button>
         </Form.Item>
 
