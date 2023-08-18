@@ -166,7 +166,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer1("A. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer1(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -176,7 +176,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer2("B. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer2(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -186,17 +186,17 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer3("C. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer3(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    label={"la respuesta D de la pregunta " + (field.key + 1)}
+                    label={"la respuesta E de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta4']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer4("D. "+e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer4(e.currentTarget.value) }}></Input>
                   </Form.Item>
 
                   <Form.Item

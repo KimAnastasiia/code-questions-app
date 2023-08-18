@@ -3,7 +3,7 @@ import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { Avatar, Row, List, Button } from 'antd';
 import { useNavigate   } from "react-router-dom";
 import { backendUrl } from './Global';
-import { AreaChartOutlined, DeleteOutlined } from '@ant-design/icons';
+import { AreaChartOutlined, DeleteOutlined, ProfileOutlined,CheckCircleOutlined,EditOutlined } from '@ant-design/icons';
 interface listOfTestsInterface {
     name:string,
     id:number,
@@ -77,14 +77,15 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
 
             renderItem={(item) => (
 
-            <List.Item key={item.email}>
+            <List.Item style={{display:"block"}} key={item.email}>
+              
                 <List.Item.Meta
                 title={item.name}
                 description={item.email}
                 />
                 <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}><DeleteOutlined/>Delete</Button>
-                <Button onClick={()=>{navigate("/test/pass"+"/"+item.email+"/"+item.name+"/"+item.id)}}>Aprobar el examen</Button>
-                <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} >Resultats</Button>
+                <Button onClick={()=>{navigate("/test/pass/"+item.email+"/"+item.name+"/"+item.id)}}><CheckCircleOutlined />Aprobar el examen</Button>
+                <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} ><ProfileOutlined />Resultats</Button>
                 <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} ><AreaChartOutlined />Statistic</Button>
             </List.Item>
 
