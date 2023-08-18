@@ -16,6 +16,7 @@ import BeforeTakingTheTest from "./BeforeTakingTheTest";
 import ResultsList from "./ResultsList";
 import AnswersStatistic from "./AnswersStatistic";
 import UploadTest from "./UploadTest";
+import EditTests from "./EditTests";
 
 export interface ResultsInterface {
   questionNumber:number,
@@ -54,6 +55,7 @@ function App() {
       <Route path="/test/:email/:name/:id" element={<Test/>}/>
       <Route path="/test/results/:email/:name/:id" element={<Results/>}/>
       <Route path="/test/pass/:email/:name/:id" element={<BeforeTakingTheTest/>}/>
+      <Route path="/test/edit/:id" element={<EditTests openNotification={openNotification}/>}/>
     </Routes>
     </>
 

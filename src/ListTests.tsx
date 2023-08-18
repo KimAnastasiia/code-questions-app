@@ -87,6 +87,8 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
                 <Button onClick={()=>{navigate("/test/pass/"+item.email+"/"+item.name+"/"+item.id)}}><CheckCircleOutlined />Aprobar el examen</Button>
                 <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} ><ProfileOutlined />Resultats</Button>
                 <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} ><AreaChartOutlined />Statistic</Button>
+                <Button onClick={()=>{navigate("/test/edit/"+item.id)}} style={{marginLeft:10}} ><EditOutlined />Editar prueba</Button>
+            
             </List.Item>
 
             )}
