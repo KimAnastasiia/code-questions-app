@@ -6,6 +6,7 @@ export interface test {
     answer4:string, 
     nameOfTest:string,
     index:number,
-    code:string
+    code:string,
+    rightAnswer:string
   }
 export default test
