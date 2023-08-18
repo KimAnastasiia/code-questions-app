@@ -11,7 +11,7 @@ import { Button, Alert, Form, Row } from 'antd';
 import { async } from 'q';
 import { useNavigate } from "react-router-dom";
 import test from './Models/test';
-type setResultsFunction = (param: ResultsInterface[]) => void;
+
 export interface AnswersInterface {
   questionNumber: number,
   answerText: string
@@ -35,7 +35,7 @@ const Test: React.FC<{}> = () => {
 
 
   let fechData = async () => {
-    let response = await fetch(backendUrl + `/question/${email}/${name}/${id}/`)
+    let response = await fetch(backendUrl + `/question/${id}/`)
     if (response.ok) {
       let data = await response.json();
       setQuestions(data);
@@ -75,7 +75,7 @@ const Test: React.FC<{}> = () => {
     }
   }
   const onFinish = async () => {
-    let response = await fetch(backendUrl + `/question/${email}/${name}/${id}?access_user_token=` + localStorage.getItem('access_user_token'), {
+    let response = await fetch(backendUrl + `/question/${id}?access_user_token=` + localStorage.getItem('access_user_token'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ const Test: React.FC<{}> = () => {
                   showIcon
                   style={{ marginBottom: 20 }}
                 />}
-              <p>{(index + 1) + "/" + questions.length + question.question}</p>
+              <p>{(index + 1) + "/" +questions.length +" "+  question.question}</p>
 
               <CodeMirror
                 value={question.code}

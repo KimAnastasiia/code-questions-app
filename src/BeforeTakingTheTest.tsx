@@ -23,7 +23,7 @@ const BeforeTakingTheTest:React.FC<{}>=()=>{
   localStorage.setItem('access_user_token',access_user_token);
   let response = await fetch(backendUrl + "/question?access_user_token="+access_user_token )
   if(response.ok){
-    navigate("/test/withEmail/"+email+"/"+name+"/"+id)
+    navigate("/test/"+email+"/"+name+"/"+id)
   }else{
     setAlert(true)
   }

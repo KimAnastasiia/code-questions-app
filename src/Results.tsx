@@ -43,19 +43,12 @@ const Results: React.FC<{}> = () => {
   }, [])
 
   let fechData = async () => {
-    let response = await fetch(backendUrl + `/question/${email}/${name}/${id}/`)
+    let response = await fetch(backendUrl + `/question/${id}/`)
     if (response.ok) {
       let data = await response.json();
       setQuestions(data);
     }
   }
-
-  const onChange = React.useCallback((value: any, viewUpdate: any) => {
-    //console.log('value:', value);
-  }, []);
-
-
-
   const onChange2 = (e: RadioChangeEvent, questionNumber: number) => {
 
     let prevAns = [...answer]
@@ -91,12 +84,11 @@ const Results: React.FC<{}> = () => {
             return (
               <div style={{ backgroundColor: "white", padding: 40 }}>
 
-                <p>{(i + 1) + question.question}</p>
+                <p>{(i + 1) +" "+ question.question}</p>
 
                 <CodeMirror
                   value={question.code}
                   extensions={[javascript({ jsx: true })]}
-                  onChange={onChange}
                   editable={false}
                 />
 
