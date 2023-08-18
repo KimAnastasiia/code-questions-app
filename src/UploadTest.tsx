@@ -57,9 +57,14 @@ const UploadTest :React.FC<UploadTestProps> = ({openNotification}) =>{
               body:formData
           })
           if(response.ok){
-            openNotification("top", "Prueba creada con éxito", "success")
-            setMyFile(null)
-            setTestName("")
+            let data = await response.json()
+            if(!data.error){
+              openNotification("top", "Prueba creada con éxito", "success")
+              setMyFile(null)
+              setTestName("")
+            }else{
+              openNotification("top", "Prueba no creada ", "error")
+          }
           }else{
               openNotification("top", "Prueba no creada ", "error")
           }

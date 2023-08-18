@@ -33,10 +33,54 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
       setQuestions(data);
     }
   }
+  const handleInputChange = (e: any, name: any, numberOfQuestion: number) => {
+    let newList: any
+
+    if (name == "code") {
+      newList = questions.map((el: any) => {
+        if (el.numberOfQuestion == numberOfQuestion) {
+          el.code = e
+        }
+        return el
+      })
+
+    } else {
+      newList = questions.map((el: any) => {
+        if (el.numberOfQuestion == numberOfQuestion) {
+          el[name] = e.currentTarget?.value
+        }
+        return el
+      })
+    }
+
+    setQuestions(newList)
+    console.log(questions)
+  }
+
+  const editTest = async () => {
+    let response = await fetch(backendUrl + "/createdTests?access_token=" + localStorage.getItem("access_token"), {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(questions)
+    })
+    if(response.ok){
+      let data = await response.json()
+      if(!data.error){
+        openNotification("top", "Prueba editada con éxito", "success")
+      }else{
+        openNotification("top", "Prueba no editada ", "error")
+      }
+
+    } else {
+      openNotification("top", "Prueba no editada ", "error")
+    }
+  }
 
   return (
     <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
-      <Space align="baseline" style={{ display: "block",marginBottom: 20, backgroundColor: "white", padding: 30 }}>
+      <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", padding: 30 }}>
         <Form.Item
           rules={[{ required: true, message: 'Please input name of test!' }]}
           label="Nombre de la prueba "
@@ -53,7 +97,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
               style={{ minWidth: 600, marginTop: 20, fontWeight: 'bold' }}
               labelCol={{ span: 24 }}
             >
-              <TextArea value={question.question} />
+              <TextArea value={question.question} onChange={(e) => { handleInputChange(e, "question", question.numberOfQuestion) }} />
             </Form.Item>
             <Form.Item
               label="code "
@@ -66,6 +110,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
                 extensions={[javascript({ jsx: true })]}
                 editable={true}
                 value={question.code}
+                onChange={(e) => { handleInputChange(e, "code", question.numberOfQuestion) }}
               />
             </Form.Item>
             <Form.Item
@@ -75,7 +120,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
               labelCol={{ span: 24 }}
 
             >
-              <Input value={question.answer1}></Input>
+              <Input onChange={(e) => { handleInputChange(e, "answer1", question.numberOfQuestion) }} value={question.answer1}></Input>
             </Form.Item>
             <Form.Item
               label={"la respuesta B de la pregunta " + (index + 1)}
@@ -83,7 +128,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
               style={{ width: 500 }}
               labelCol={{ span: 24 }}
             >
-              <Input value={question.answer2}></Input>
+              <Input value={question.answer2} onChange={(e) => { handleInputChange(e, "answer2", question.numberOfQuestion) }} ></Input>
             </Form.Item>
             <Form.Item
               label={"la respuesta C de la pregunta " + (index + 1)}
@@ -91,7 +136,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
               style={{ width: 500 }}
               labelCol={{ span: 24 }}
             >
-              <Input value={question.answer3}></Input>
+              <Input value={question.answer3} onChange={(e) => { handleInputChange(e, "answer3", question.numberOfQuestion) }} ></Input>
             </Form.Item>
             <Form.Item
 
@@ -101,7 +146,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
               style={{ width: 500 }}
               labelCol={{ span: 24 }}
             >
-              <Input value={question.answer4}></Input>
+              <Input value={question.answer4} onChange={(e) => { handleInputChange(e, "answer4", question.numberOfQuestion) }} ></Input>
             </Form.Item>
 
             <Form.Item
@@ -109,10 +154,11 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
               label="respuesta de verda "
 
               rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-              style={{ marginRight: 20, paddingBottom: 20,  borderBottom: '2px solid red', }}
+              style={{ marginRight: 20, paddingBottom: 20, borderBottom: '2px solid red', }}
               labelCol={{ span: 24 }}
             >
               <Select
+                onChange={(e) => { handleInputChange(e, "rightAnswer", question.numberOfQuestion) }}
                 defaultValue={question.rightAnswer}
                 options={[
                   { value: "A", label: "A" },
@@ -126,10 +172,10 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
           </>
 
         )}
-        <Button type='primary' style={{width:"100%"}}>Salvar</Button>
+        <Button type='primary' onClick={editTest} style={{ width: "100%" }}>Salvar</Button>
       </Space>
     </Row>
   );
 };
 
-export default EditTests;
+export default EditTests

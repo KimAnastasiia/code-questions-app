@@ -42,7 +42,8 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
       answer4: answer4,
       rightAnswer: rightAnswer,
       nameOfTest: testName,
-      index: index
+      index: index,
+      numberOfQuestion:0
     };
     createdTest.current = [...createdTest.current, newTest]
     setAnswer1("")
