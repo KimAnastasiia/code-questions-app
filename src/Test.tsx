@@ -113,12 +113,13 @@ const Test: React.FC<{}> = () => {
                 />}
               <p>{(index + 1) + "/" +questions.length +" "+  question.question}</p>
 
+         { question.code.length>0 &&    
               <CodeMirror
                 value={question.code}
                 extensions={[javascript({ jsx: true })]}
                 onChange={onChange}
                 editable={false}
-              />
+              />}
 
               <Radio.Group value={answer.find((a) => a.questionNumber == i + 1)?.answerText} onChange={(e) => { onChange2(e, (i + 1)) }} style={{ marginTop: 40, marginBottom: 40 }}>
 
