@@ -72,7 +72,9 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
       },
       body: JSON.stringify(testToSent)
     })
-
+    if(response.ok){
+      nextIndex.current=0
+    }
   }
 
   let addTest = async () => {

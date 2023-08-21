@@ -22,14 +22,23 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
   const navigate = useNavigate();
   const { id } = useParams()
   const [questions, setQuestions] = useState<test[]>([])
-  const [name, setName]=useState("")
+  const [name, setName] = useState("")
+  const [question, setQuestion] = useState<string>("")
+  const [answer1, setAnswer1] = useState<string>("")
+  const [answer2, setAnswer2] = useState<string>("")
+  const [answer3, setAnswer3] = useState<string>("")
+  const [answer4, setAnswer4] = useState<string>("")
+  const [rightAnswer, setRightAnswer] = useState<string>("")
+  const [code, setCode] = useState<string>("")
+  const createdTest = useRef<test>();
+  let nextIndex = useRef<number>(0)
   useEffect(() => {
     getPrevValueOfTest()
     getTestName()
   }, [])
-  const getTestName=async()=>{
-    let response = await fetch(backendUrl + `/test/${id}?access_token=`+localStorage.getItem("access_token") )
-    if(response.ok){
+  const getTestName = async () => {
+    let response = await fetch(backendUrl + `/test/${id}?access_token=` + localStorage.getItem("access_token"))
+    if (response.ok) {
       let data = await response.json()
       setName(data[0].name)
     }
@@ -52,14 +61,14 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
         return el
       })
 
-    }else if(name == "rightAnswer"){
+    } else if (name == "rightAnswer") {
       newList = questions.map((el: any) => {
         if (el.numberOfQuestion == numberOfQuestion) {
           el[name] = e
         }
         return el
       })
-    }else {
+    } else {
       newList = questions.map((el: any) => {
         if (el.numberOfQuestion == numberOfQuestion) {
           el[name] = e.currentTarget?.value
@@ -80,33 +89,34 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
       },
       body: JSON.stringify(questions)
     })
-    if(response.ok){
+    if (response.ok) {
       let data = await response.json()
-      if(!data.error){
+      if (!data.error) {
         openNotification("top", "Prueba editada con éxito", "success")
-      }else{
+      } else {
         openNotification("top", "Prueba no editada ", "error")
       }
 
     } else {
       openNotification("top", "Prueba no editada ", "error")
     }
+    addNewQuestion()
   }
   const editName = async () => {
-    let response = await fetch(backendUrl +`/test/${id}?access_token=` + localStorage.getItem("access_token"), {
+    let response = await fetch(backendUrl + `/test/${id}?access_token=` + localStorage.getItem("access_token"), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name:name
+        name: name
       })
     })
-    if(response.ok){
+    if (response.ok) {
       let data = await response.json()
-      if(!data.error){
+      if (!data.error) {
         openNotification("top", "Nombre de la prueba editada con éxito", "success")
-      }else{
+      } else {
         openNotification("top", "Nombre de la prueba no editada ", "error")
       }
 
@@ -114,26 +124,74 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
       openNotification("top", "Nombre de la prueba no editada ", "error")
     }
   }
-  const deleteQuestion=async(numberOfQuestion:number)=>{
-    let response = await fetch(backendUrl + `/questions/private/${numberOfQuestion}?testId= `+ id + "&access_token=" + localStorage.getItem("access_token"), {
+  const deleteQuestion = async (numberOfQuestion: number) => {
+    let response = await fetch(backendUrl + `/questions/private/${numberOfQuestion}?testId= ` + id + "&access_token=" + localStorage.getItem("access_token"), {
       method: 'DELETE'
     })
     if (response.ok) {
       openNotification("top", "La pregunta editada con éxito", "success")
-    }else{
+    } else {
       openNotification("top", "Ocurrió un error al eliminar las pregunta de la prueba", "error")
     }
     getPrevValueOfTest()
   }
+
+  const createTest = async () => {
+    createdTest.current = {
+      question: question,
+      code: code,
+      answer1: answer1,
+      answer2: answer2,
+      answer3: answer3,
+      answer4: answer4,
+      rightAnswer: rightAnswer,
+      numberOfQuestion: questions.length + 1
+    }
+
+    let testToSent = createdTest.current
+    if (testToSent != undefined) {
+      let response = await fetch(backendUrl + "/questions/private/addByOne?access_token=" + localStorage.getItem('access_token') + "&testId=" + id, {
+
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(testToSent)
+      })
+      getPrevValueOfTest()
+      if (response.ok) {
+        setAnswer1("")
+        setAnswer2("")
+        setAnswer3("")
+        setAnswer4("")
+        setQuestion("")
+        setRightAnswer("")
+        setCode("")
+        nextIndex.current = 0
+      }
+    }
+
+  }
+  const onChangeCode = React.useCallback((value: any, viewUpdate: any) => {
+    setCode(value)
+  }, []);
+  const addNewQuestion = () => {
+
+    if (nextIndex.current != 0) {
+      createTest()
+    }
+
+    nextIndex.current = nextIndex.current + 1
+  }
   return (
-    <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
+    <Row align="middle" justify="center" style={{ backgroundColor: "#EDEEF0" }}>
       <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", padding: 30 }}>
         <Form.Item
           rules={[{ required: true, message: 'Please input name of test!' }]}
           label="Nombre de la prueba "
           labelCol={{ span: 24 }}
         >
-          <Input  value={name} onChange={(e) => { setName(e.currentTarget.value) }} prefix={<FormOutlined />} placeholder="Nombre de la prueba" />
+          <Input value={name} onChange={(e) => { setName(e.currentTarget.value) }} prefix={<FormOutlined />} placeholder="Nombre de la prueba" />
         </Form.Item>
         {questions.map((question, index) =>
 
@@ -215,11 +273,130 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
                 ]}
               />
             </Form.Item>
-                <Button danger onClick={()=>{deleteQuestion(question.numberOfQuestion)}} >Borrar la pregunta</Button>
+            <Button danger onClick={() => { deleteQuestion(question.numberOfQuestion) }} >Borrar la pregunta</Button>
           </>
 
         )}
-        <Button type='primary' onClick={()=>{editTest();editName()}} style={{ width: "100%" }}>Salvar</Button>
+        <Form
+          initialValues={{ remember: true }}
+
+          style={{ backgroundColor: "white", padding: 20, borderRadius: "20px" }}
+        >
+          <Form.List name="pregunta">
+
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map((field) => (
+                  <Space key={field.key} align="baseline" style={{ display: "block", borderBottom: '2px solid red', marginBottom: 20 }}>
+
+
+                    <Form.Item
+                      {...field}
+                      label="pregunta "
+                      name={[field.name, 'pregunta']}
+                      rules={[{ required: true, message: 'Desaparecida pregunta' }]}
+                      style={{ minWidth: 600, marginTop: 20 }}
+                      labelCol={{ span: 24 }}
+                    >
+                      <TextArea onChange={(e) => { setQuestion(e.currentTarget.value) }} />
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      label="code "
+                      name={[field.name, 'code']}
+                      rules={[{ required: true, message: 'Desaparecida codigo' }]}
+                      style={{ minWidth: 600, marginTop: 20 }}
+                      labelCol={{ span: 24 }}
+                    >
+
+                      <CodeMirror
+                        value={code}
+                        extensions={[javascript({ jsx: true })]}
+                        onChange={onChangeCode}
+                        editable={true}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      label={"la respuesta A de la pregunta " + (questions.length + (field.key + 1))}
+                      name={[field.name, 'respuesta1']}
+                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
+                      style={{ width: 500 }}
+                      labelCol={{ span: 24 }}
+                    >
+                      <Input onChange={(e) => { setAnswer1("A. " + e.currentTarget.value) }}></Input>
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      label={"la respuesta B de la pregunta " + (questions.length + (field.key + 1))}
+                      name={[field.name, 'respuesta2']}
+                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
+                      style={{ width: 500 }}
+                      labelCol={{ span: 24 }}
+                    >
+                      <Input onChange={(e) => { setAnswer2("B. " + e.currentTarget.value) }}></Input>
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      label={"la respuesta C de la pregunta " + (questions.length + (field.key + 1))}
+                      name={[field.name, 'respuesta3']}
+                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
+                      style={{ width: 500 }}
+                      labelCol={{ span: 24 }}
+                    >
+                      <Input onChange={(e) => { setAnswer3("C. " + e.currentTarget.value) }}></Input>
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      label={"la respuesta D de la pregunta " + (questions.length + (field.key + 1))}
+                      name={[field.name, 'respuesta4']}
+                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
+                      style={{ width: 500 }}
+                      labelCol={{ span: 24 }}
+                    >
+                      <Input onChange={(e) => { setAnswer4("D. " + e.currentTarget.value) }}></Input>
+                    </Form.Item>
+
+                    <Form.Item
+                      {...field}
+                      label="respuesta de verda "
+                      name={[field.name, 'respuesta']}
+                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
+                      style={{ marginRight: 20, fontWeight: 'bold' }}
+                      labelCol={{ span: 24 }}
+                    >
+                      <Select
+                        onChange={(e) => { setRightAnswer(e) }}
+                        options={[
+                          { value: "A", label: "A" },
+                          { value: "B", label: "B" },
+                          { value: "C", label: "C" },
+                          { value: "D", label: "D", },
+                        ]}
+                      />
+                    </Form.Item>
+
+                    <Button danger onClick={() => {
+                      remove(field.name)
+                    }} style={{ margin: 20 }}> <DeleteOutlined />Borrar la pregunta</Button>
+
+                  </Space>
+                ))}
+
+                <Form.Item>
+                  <Button style={{ marginTop: 20 }} type="dashed" onClick={() => {
+                    addNewQuestion();
+                    add()
+                  }
+                  } block icon={<PlusOutlined />}>
+                    Añadir pregunta
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form>
+        <Button type='primary' onClick={() => { editTest(); editName() }} style={{ width: "100%", marginTop: 20 }}>Salvar</Button>
       </Space>
     </Row>
   );
