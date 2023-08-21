@@ -65,7 +65,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
 
   const createTest = async (id: number) => {
     let testToSent = createdTest.current
-    let response = await fetch(backendUrl + "/createdTests?access_token=" + localStorage.getItem('access_token') + "&testId=" + id, {
+    let response = await fetch(backendUrl + "/questions/private?access_token=" + localStorage.getItem('access_token') + "&testId=" + id, {
 
       method: 'POST',
       headers: {

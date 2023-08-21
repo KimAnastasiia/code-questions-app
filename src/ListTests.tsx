@@ -32,7 +32,7 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
   }
   const handleDelete = async (id: number) => {
 
-    let response = await fetch(backendUrl + '/createdTests?testId=' + id + "&access_token=" + localStorage.getItem("access_token"), {
+    let response = await fetch(backendUrl + '/questions/private?testId=' + id + "&access_token=" + localStorage.getItem("access_token"), {
       method: 'DELETE'
     })
     if (response.ok) {

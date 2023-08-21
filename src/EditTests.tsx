@@ -27,7 +27,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
   }, [])
 
   const getPrevValueOfTest = async () => {
-    let response = await fetch(backendUrl + `/createdTests/${id}?access_token=` + localStorage.getItem("access_token"))
+    let response = await fetch(backendUrl + `/questions/private/${id}?access_token=` + localStorage.getItem("access_token"))
     if (response.ok) {
       let data = await response.json();
       setQuestions(data);
@@ -58,7 +58,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
   }
 
   const editTest = async () => {
-    let response = await fetch(backendUrl + "/createdTests?access_token=" + localStorage.getItem("access_token"), {
+    let response = await fetch(backendUrl + "/questions/private?access_token=" + localStorage.getItem("access_token"), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
