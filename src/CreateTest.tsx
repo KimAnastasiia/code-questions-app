@@ -41,7 +41,6 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
       answer3: answer3,
       answer4: answer4,
       rightAnswer: rightAnswer,
-      nameOfTest: testName,
       index: index,
       numberOfQuestion:0
     };

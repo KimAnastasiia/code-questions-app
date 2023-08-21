@@ -22,10 +22,18 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
   const navigate = useNavigate();
   const { id } = useParams()
   const [questions, setQuestions] = useState<test[]>([])
+  const [name, setName]=useState("")
   useEffect(() => {
     getPrevValueOfTest()
+    getTestName()
   }, [])
-
+  const getTestName=async()=>{
+    let response = await fetch(backendUrl + `/test/${id}?access_token=`+localStorage.getItem("access_token") )
+    if(response.ok){
+      let data = await response.json()
+      setName(data[0].name)
+    }
+  }
   const getPrevValueOfTest = async () => {
     let response = await fetch(backendUrl + `/questions/private/${id}?access_token=` + localStorage.getItem("access_token"))
     if (response.ok) {
@@ -44,7 +52,14 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
         return el
       })
 
-    } else {
+    }else if(name == "rightAnswer"){
+      newList = questions.map((el: any) => {
+        if (el.numberOfQuestion == numberOfQuestion) {
+          el[name] = e
+        }
+        return el
+      })
+    }else {
       newList = questions.map((el: any) => {
         if (el.numberOfQuestion == numberOfQuestion) {
           el[name] = e.currentTarget?.value
@@ -77,7 +92,28 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
       openNotification("top", "Prueba no editada ", "error")
     }
   }
+  const editName = async () => {
+    let response = await fetch(backendUrl +`/test/${id}?access_token=` + localStorage.getItem("access_token"), {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name:name
+      })
+    })
+    if(response.ok){
+      let data = await response.json()
+      if(!data.error){
+        openNotification("top", "Nombre de la prueba editada con éxito", "success")
+      }else{
+        openNotification("top", "Nombre de la prueba no editada ", "error")
+      }
 
+    } else {
+      openNotification("top", "Nombre de la prueba no editada ", "error")
+    }
+  }
   return (
     <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
       <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", padding: 30 }}>
@@ -86,7 +122,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
           label="Nombre de la prueba "
           labelCol={{ span: 24 }}
         >
-          <Input value={questions[0]?.nameOfTest} prefix={<FormOutlined />} placeholder="Nombre de la prueba" />
+          <Input  value={name} onChange={(e) => { setName(e.currentTarget.value) }} prefix={<FormOutlined />} placeholder="Nombre de la prueba" />
         </Form.Item>
         {questions.map((question, index) =>
 
@@ -172,7 +208,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
           </>
 
         )}
-        <Button type='primary' onClick={editTest} style={{ width: "100%" }}>Salvar</Button>
+        <Button type='primary' onClick={()=>{editTest();editName()}} style={{ width: "100%" }}>Salvar</Button>
       </Space>
     </Row>
   );
