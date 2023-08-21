@@ -114,6 +114,17 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
       openNotification("top", "Nombre de la prueba no editada ", "error")
     }
   }
+  const deleteQuestion=async(numberOfQuestion:number)=>{
+    let response = await fetch(backendUrl + `/questions/private/${numberOfQuestion}?testId= `+ id + "&access_token=" + localStorage.getItem("access_token"), {
+      method: 'DELETE'
+    })
+    if (response.ok) {
+      openNotification("top", "La pregunta editada con éxito", "success")
+    }else{
+      openNotification("top", "Ocurrió un error al eliminar las pregunta de la prueba", "error")
+    }
+    getPrevValueOfTest()
+  }
   return (
     <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
       <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", padding: 30 }}>
@@ -204,7 +215,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
                 ]}
               />
             </Form.Item>
-
+                <Button danger onClick={()=>{deleteQuestion(question.numberOfQuestion)}} >Borrar la pregunta</Button>
           </>
 
         )}
