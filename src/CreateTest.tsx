@@ -4,7 +4,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Select, Alert, Form, Input, Row, Space } from 'antd';
 import { useNavigate } from "react-router-dom";
 import type { NotificationPlacement } from 'antd/es/notification/interface'
-import type { UploadProps } from 'antd';
 import { backendUrl } from './Global';
 import { LockOutlined, FormOutlined } from '@ant-design/icons';
 import { javascript } from '@codemirror/lang-javascript';
