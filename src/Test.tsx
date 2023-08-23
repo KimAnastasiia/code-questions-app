@@ -3,14 +3,13 @@ import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { backendUrl } from './Global';
 import { useParams } from 'react-router-dom';
-import quastion from './Models/quastion';
 import type { RadioChangeEvent } from 'antd';
 import { Input, Radio, Space, } from 'antd';
 import { ResultsInterface } from "./App"
 import { Button, Alert, Form, Row } from 'antd';
 import { async } from 'q';
 import { useNavigate } from "react-router-dom";
-import test from './Models/test';
+import Question from './Models/Question';
 
 export interface AnswersInterface {
   questionNumber: number,
@@ -23,7 +22,7 @@ const Test: React.FC<{}> = () => {
   const { name } = useParams()
   const { id } = useParams()
   let [index, setIndex] = useState<number>(0)
-  const [questions, setQuestions] = useState<test[]>([])
+  const [questions, setQuestions] = useState<Question[]>([])
   const [answer, setAnswer] = useState<AnswersInterface[]>([])
   const [isAnswerSelected, setIsAnswerSelected] = useState(true);
 

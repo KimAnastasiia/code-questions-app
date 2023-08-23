@@ -1,4 +1,4 @@
-export interface test {
+export interface Question {
     question:string|any,
     answer1:string,
     answer2:string, 
@@ -7,6 +7,7 @@ export interface test {
     index?:number,
     code:string,
     rightAnswer:string,
-    numberOfQuestion:number
+    numberOfQuestion:number,
+    email?:string
   }
-export default test
+export default Question

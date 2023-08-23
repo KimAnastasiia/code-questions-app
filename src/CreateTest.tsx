@@ -8,7 +8,7 @@ import type { UploadProps } from 'antd';
 import { backendUrl } from './Global';
 import { LockOutlined, FormOutlined } from '@ant-design/icons';
 import { javascript } from '@codemirror/lang-javascript';
-import test from './Models/test';
+import Question from './Models/Question';
 import CodeMirror from '@uiw/react-codemirror';
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
@@ -30,7 +30,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
   const [rightAnswer, setRightAnswer] = useState<string>("")
   const [code, setCode] = useState<string>("")
   let nextIndex = useRef<number>(0)
-  const createdTest = useRef<test[]>([])
+  const createdTest = useRef<Question[]>([])
 
   let save = (index: number) => {
     const newTest = {
@@ -168,7 +168,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer1("A. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer1(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -178,7 +178,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer2("B. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer2(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -188,7 +188,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer3("C. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer3(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -198,7 +198,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer4("D. "+e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer4(e.currentTarget.value) }}></Input>
                   </Form.Item>
 
                   <Form.Item

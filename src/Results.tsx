@@ -3,14 +3,13 @@ import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { backendUrl } from './Global';
 import { useParams } from 'react-router-dom';
-import quastion from './Models/quastion';
 import { useNavigate } from "react-router-dom";
 import type { RadioChangeEvent } from 'antd';
 import { Input, Radio, Space, } from 'antd';
 import { Button, Alert, Form, Statistic } from 'antd';
 import { async } from 'q';
 import { ResultsInterface } from "./App"
-import test from './Models/test';
+import test from './Models/Question';
 export interface AnswersInterface {
   questionNumber: number,
   answerText: string

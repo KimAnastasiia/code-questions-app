@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Row, Select, Form, Input, Space } from 'antd';
+import { Button, Row, Select, Form, Input, Space, Alert } from 'antd';
 import { useNavigate } from "react-router-dom";
 import type { NotificationPlacement } from 'antd/es/notification/interface'
-import type { UploadProps } from 'antd';
 import { backendUrl } from './Global';
 import { LockOutlined, FormOutlined } from '@ant-design/icons';
 import { javascript } from '@codemirror/lang-javascript';
-import test from './Models/test';
 import CodeMirror from '@uiw/react-codemirror';
 import { useParams } from 'react-router-dom';
+import Question from './Models/Question';
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 interface EditTestsProps {
@@ -21,21 +20,25 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
   const { TextArea } = Input;
   const navigate = useNavigate();
   const { id } = useParams()
-  const [questions, setQuestions] = useState<test[]>([])
+  const [questions, setQuestions] = useState<Question[]>([])
   const [name, setName] = useState("")
-  const [question, setQuestion] = useState<string>("")
-  const [answer1, setAnswer1] = useState<string>("")
-  const [answer2, setAnswer2] = useState<string>("")
-  const [answer3, setAnswer3] = useState<string>("")
-  const [answer4, setAnswer4] = useState<string>("")
-  const [rightAnswer, setRightAnswer] = useState<string>("")
-  const [code, setCode] = useState<string>("")
-  const createdTest = useRef<test>();
-  let nextIndex = useRef<number>(0)
+  const [error, setError]=useState<boolean>(false)
+
   useEffect(() => {
     getPrevValueOfTest()
     getTestName()
   }, [])
+
+ 
+  useEffect(() => {
+    let question = questions[questions.length-1]
+      if(question != null && question.answer1!="" && question.answer2!="" && question.answer3!="" 
+        && question.answer4!="" && question.question!="" && question.rightAnswer!=""){
+        setError(false)
+      }
+  }, [questions])
+
+
   const getTestName = async () => {
     let response = await fetch(backendUrl + `/test/${id}?access_token=` + localStorage.getItem("access_token"))
     if (response.ok) {
@@ -78,7 +81,6 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
     }
 
     setQuestions(newList)
-    console.log(questions)
   }
 
   const editTest = async () => {
@@ -100,7 +102,6 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
     } else {
       openNotification("top", "Prueba no editada ", "error")
     }
-    addNewQuestion()
   }
   const editName = async () => {
     let response = await fetch(backendUrl + `/test/${id}?access_token=` + localStorage.getItem("access_token"), {
@@ -115,7 +116,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
     if (response.ok) {
       let data = await response.json()
       if (!data.error) {
-        openNotification("top", "Nombre de la prueba editada con éxito", "success")
+       openNotification("top", "Nombre de la prueba editada con éxito", "success")
       } else {
         openNotification("top", "Nombre de la prueba no editada ", "error")
       }
@@ -130,58 +131,81 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
     })
     if (response.ok) {
       openNotification("top", "La pregunta editada con éxito", "success")
+     let newQuestions=questions.filter((q)=>q.numberOfQuestion!=numberOfQuestion)
+     setQuestions(newQuestions)
     } else {
       openNotification("top", "Ocurrió un error al eliminar las pregunta de la prueba", "error")
     }
-    getPrevValueOfTest()
+   
   }
 
-  const createTest = async () => {
-    createdTest.current = {
-      question: question,
-      code: code,
-      answer1: answer1,
-      answer2: answer2,
-      answer3: answer3,
-      answer4: answer4,
-      rightAnswer: rightAnswer,
-      numberOfQuestion: questions.length + 1
-    }
+  const createQuestion = async (save:boolean) => {
 
-    let testToSent = createdTest.current
-    if (testToSent != undefined) {
+    let numberOfNewQuestion=questions[questions.length-1].numberOfQuestion + 1
+
+    let questionForBackend={
+      question: "",
+      code: "",
+      answer1: "",
+      answer2: "",
+      answer3: "",
+      answer4: "",
+      rightAnswer: "",
+      email:questions[0].email,
+      testId:id,
+      numberOfQuestion: numberOfNewQuestion
+    }
+    if (questionForBackend != undefined) {
       let response = await fetch(backendUrl + "/questions/private/addByOne?access_token=" + localStorage.getItem('access_token') + "&testId=" + id, {
 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(testToSent)
+        body: JSON.stringify(questionForBackend)
       })
-      getPrevValueOfTest()
-      if (response.ok) {
-        setAnswer1("")
-        setAnswer2("")
-        setAnswer3("")
-        setAnswer4("")
-        setQuestion("")
-        setRightAnswer("")
-        setCode("")
-        nextIndex.current = 0
+       if (response.ok) {
+        if(save==false){
+          setQuestions([...questions,questionForBackend ]) 
+        }
       }
     }
-
   }
-  const onChangeCode = React.useCallback((value: any, viewUpdate: any) => {
-    setCode(value)
-  }, []);
-  const addNewQuestion = () => {
 
-    if (nextIndex.current != 0) {
-      createTest()
+  const addNewQuestion = async (save:boolean) => {
+  
+    setError(true)
+    editTest()
+
+    let numberOfNewQuestion=questions[questions.length-1].numberOfQuestion + 1
+
+    let emptyQuestion={
+      question: "",
+      code: "",
+      answer1: "",
+      answer2: "",
+      answer3: "",
+      answer4: "",
+      rightAnswer: "",
+      numberOfQuestion: numberOfNewQuestion
     }
 
-    nextIndex.current = nextIndex.current + 1
+    setQuestions([...questions, emptyQuestion])
+
+    let question = questions[questions.length-1]
+
+    if(question.answer1!="" && question.answer2!="" 
+      && question.answer3!="" && question.answer4!="" && question.question!="" && question.rightAnswer!=""){
+
+      await createQuestion(save)
+
+      if(save==false){
+        setError(true)
+      }
+
+    }
+
+
   }
   return (
     <Row align="middle" justify="center" style={{ backgroundColor: "#EDEEF0" }}>
@@ -277,125 +301,16 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
           </>
 
         )}
-        <Form
-          initialValues={{ remember: true }}
-
-          style={{ backgroundColor: "white", padding: 20, borderRadius: "20px" }}
-        >
-          <Form.List name="pregunta">
-
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map((field) => (
-                  <Space key={field.key} align="baseline" style={{ display: "block", borderBottom: '2px solid red', marginBottom: 20 }}>
-
-
-                    <Form.Item
-                      {...field}
-                      label="pregunta "
-                      name={[field.name, 'pregunta']}
-                      rules={[{ required: true, message: 'Desaparecida pregunta' }]}
-                      style={{ minWidth: 600, marginTop: 20 }}
-                      labelCol={{ span: 24 }}
-                    >
-                      <TextArea onChange={(e) => { setQuestion(e.currentTarget.value) }} />
-                    </Form.Item>
-                    <Form.Item
-                      {...field}
-                      label="code "
-                      name={[field.name, 'code']}
-                      rules={[{ required: true, message: 'Desaparecida codigo' }]}
-                      style={{ minWidth: 600, marginTop: 20 }}
-                      labelCol={{ span: 24 }}
-                    >
-
-                      <CodeMirror
-                        value={code}
-                        extensions={[javascript({ jsx: true })]}
-                        onChange={onChangeCode}
-                        editable={true}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...field}
-                      label={"la respuesta A de la pregunta " + (questions.length + (field.key + 1))}
-                      name={[field.name, 'respuesta1']}
-                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                      style={{ width: 500 }}
-                      labelCol={{ span: 24 }}
-                    >
-                      <Input onChange={(e) => { setAnswer1("A. " + e.currentTarget.value) }}></Input>
-                    </Form.Item>
-                    <Form.Item
-                      {...field}
-                      label={"la respuesta B de la pregunta " + (questions.length + (field.key + 1))}
-                      name={[field.name, 'respuesta2']}
-                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                      style={{ width: 500 }}
-                      labelCol={{ span: 24 }}
-                    >
-                      <Input onChange={(e) => { setAnswer2("B. " + e.currentTarget.value) }}></Input>
-                    </Form.Item>
-                    <Form.Item
-                      {...field}
-                      label={"la respuesta C de la pregunta " + (questions.length + (field.key + 1))}
-                      name={[field.name, 'respuesta3']}
-                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                      style={{ width: 500 }}
-                      labelCol={{ span: 24 }}
-                    >
-                      <Input onChange={(e) => { setAnswer3("C. " + e.currentTarget.value) }}></Input>
-                    </Form.Item>
-                    <Form.Item
-                      {...field}
-                      label={"la respuesta D de la pregunta " + (questions.length + (field.key + 1))}
-                      name={[field.name, 'respuesta4']}
-                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                      style={{ width: 500 }}
-                      labelCol={{ span: 24 }}
-                    >
-                      <Input onChange={(e) => { setAnswer4("D. " + e.currentTarget.value) }}></Input>
-                    </Form.Item>
-
-                    <Form.Item
-                      {...field}
-                      label="respuesta de verda "
-                      name={[field.name, 'respuesta']}
-                      rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                      style={{ marginRight: 20, fontWeight: 'bold' }}
-                      labelCol={{ span: 24 }}
-                    >
-                      <Select
-                        onChange={(e) => { setRightAnswer(e) }}
-                        options={[
-                          { value: "A", label: "A" },
-                          { value: "B", label: "B" },
-                          { value: "C", label: "C" },
-                          { value: "D", label: "D", },
-                        ]}
-                      />
-                    </Form.Item>
-
-                    <Button danger onClick={() => {
-                      remove(field.name)
-                    }} style={{ margin: 20 }}> <DeleteOutlined />Borrar la pregunta</Button>
-
-                  </Space>
-                ))}
-
-                <Form.Item>
-                  <Button style={{ marginTop: 20 }} type="dashed" onClick={() => {
-                    addNewQuestion();
-                    add()
-                  }
-                  } block icon={<PlusOutlined />}>
-                    Añadir pregunta
-                  </Button>
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
-        </Form>
+        <Button style={{ marginTop: 20 }} disabled={error} type="dashed" onClick={async () => {
+          try{
+            await addNewQuestion(false);
+          }catch(er){
+            console.log(er)
+          };
+        }
+        } block icon={<PlusOutlined />}>
+          Añadir pregunta
+        </Button>
         <Button type='primary' onClick={() => { editTest(); editName() }} style={{ width: "100%", marginTop: 20 }}>Salvar</Button>
       </Space>
     </Row>
