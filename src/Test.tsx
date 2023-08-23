@@ -5,9 +5,7 @@ import { backendUrl } from './Global';
 import { useParams } from 'react-router-dom';
 import type { RadioChangeEvent } from 'antd';
 import { Input, Radio, Space, } from 'antd';
-import { ResultsInterface } from "./App"
 import { Button, Alert, Form, Row } from 'antd';
-import { async } from 'q';
 import { useNavigate } from "react-router-dom";
 import Question from './Models/Question';
 
@@ -42,7 +40,6 @@ const Test: React.FC<{}> = () => {
   }
 
   const onChange = React.useCallback((value: any, viewUpdate: any) => {
-    //console.log('value:', value);
   }, []);
 
 
@@ -110,23 +107,23 @@ const Test: React.FC<{}> = () => {
                   showIcon
                   style={{ marginBottom: 20 }}
                 />}
-              <p>{(index + 1) + "/" +questions.length +" "+  question.question}</p>
+              <p>{(index + 1) + "/" + questions.length + " " + question.question}</p>
 
-         { question.code.length>0 &&    
-              <CodeMirror
-                value={question.code}
-                extensions={[javascript({ jsx: true })]}
-                onChange={onChange}
-                editable={false}
-              />}
+              {question.code.length > 0 &&
+                <CodeMirror
+                  value={question.code}
+                  extensions={[javascript({ jsx: true })]}
+                  onChange={onChange}
+                  editable={false}
+                />}
 
               <Radio.Group value={answer.find((a) => a.questionNumber == i + 1)?.answerText} onChange={(e) => { onChange2(e, (i + 1)) }} style={{ marginTop: 40, marginBottom: 40 }}>
 
                 <Space direction="vertical">
-                  <Radio value={"A"}>{question.answer1}</Radio>
-                  <Radio value={"B"}>{question.answer2}</Radio>
-                  <Radio value={"C"}>{question.answer3}</Radio>
-                  <Radio value={"D"}>{question.answer4}</Radio>
+                  <Radio value={"A"}>A. {question.answer1}</Radio>
+                  <Radio value={"B"}>B. {question.answer2}</Radio>
+                  <Radio value={"C"}>C. {question.answer3}</Radio>
+                  <Radio value={"D"}>D. {question.answer4}</Radio>
                 </Space>
 
               </Radio.Group>
