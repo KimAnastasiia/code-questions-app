@@ -32,7 +32,7 @@ const Test: React.FC<{}> = () => {
 
 
   let fechData = async () => {
-    let response = await fetch(backendUrl + `/question/${id}/`)
+    let response = await fetch(backendUrl + `/question/${email}/${name}/${id}/`)
     if (response.ok) {
       let data = await response.json();
       setQuestions(data);
@@ -107,7 +107,7 @@ const Test: React.FC<{}> = () => {
                   showIcon
                   style={{ marginBottom: 20 }}
                 />}
-              <p>{(index + 1) + "/" + questions.length + " " + question.question}</p>
+              <p>{(index + 1) + "/" + questions.length + question.question}</p>
 
               {question.code.length > 0 &&
                 <CodeMirror
