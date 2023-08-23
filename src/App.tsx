@@ -8,7 +8,6 @@ import type { NotificationPlacement } from 'antd/es/notification/interface'
 import Registration from "./Registration";
 import CreateTest from "./CreateTest";
 import MenuFunction from "./Menu";
-import LogOut from "./LogOut";
 import ListTests from "./ListTests";
 import Test from "./Test";
 import Results from "./Results";
@@ -47,7 +46,6 @@ function App() {
         <Route path="/changePassword/:email" element={<RestorePassword openNotification={openNotification}/>}/>  
       {localStorage.getItem("access_token") && <Route path="/createTest" element={<CreateTest openNotification={openNotification}/>}/>  }
       {localStorage.getItem("access_token") && <Route path="/" element={<CreateTest openNotification={openNotification}/>}/>  }
-      {localStorage.getItem("access_token") &&  <Route path="/logOut" element={<LogOut/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/myTests" element={<ListTests openNotification={openNotification}/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/allResultsOfTest/:testId" element={<ResultsList/>}/>  }
       {localStorage.getItem("access_token") &&  <Route path="/answersStatistic/:testId" element={<AnswersStatistic/>}/>  }
