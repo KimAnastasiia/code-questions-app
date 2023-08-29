@@ -28,6 +28,8 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
       let data = await response.json()
       data= data.sort((a: { id: number; }, b: { id: number; },)=>b.id-a.id)
       setListOfTests(data)
+    }else{
+      openNotification("top", "Se produjo un error al solicitar una lista de pruebas", "error")
     }
   }
   const handleDelete = async (id: number) => {

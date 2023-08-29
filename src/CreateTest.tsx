@@ -72,7 +72,10 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
       body: JSON.stringify(testToSent)
     })
     if(response.ok){
+      openNotification("top", "Las preguntas de la prueba creada con éxito", "success")
       nextIndex.current=0
+    } else {
+      openNotification("top", "Las preguntas de la prueba no creada ", "error")
     }
   }
 
@@ -84,7 +87,6 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
     if (response.ok) {
       let data = await response.json()
       createTest(data.insertId)
-      openNotification("top", "Prueba creada con éxito", "success")
     } else {
       openNotification("top", "Prueba no creada ", "error")
     }
@@ -167,7 +169,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer1("A. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer1(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -177,7 +179,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer2("B. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer2(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -187,7 +189,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer3("C. " +e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer3(e.currentTarget.value) }}></Input>
                   </Form.Item>
                   <Form.Item
                     {...field}
@@ -197,7 +199,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     style={{ width: 500 }}
                     labelCol={{ span: 24 }}
                   >
-                    <Input onChange={(e) => { setAnswer4("D. "+e.currentTarget.value) }}></Input>
+                    <Input onChange={(e) => { setAnswer4(e.currentTarget.value) }}></Input>
                   </Form.Item>
 
                   <Form.Item

@@ -15,6 +15,7 @@ export interface AnswersInterface {
 }
 
 const Test: React.FC<{}> = () => {
+
   const [alert, setAlert] = useState<boolean>(false)
   const { email } = useParams()
   const { name } = useParams()
@@ -29,10 +30,8 @@ const Test: React.FC<{}> = () => {
     fechData();
   }, [])
 
-
-
   let fechData = async () => {
-    let response = await fetch(backendUrl + `/question/${email}/${name}/${id}/`)
+    let response = await fetch(backendUrl + `/question/${id}/`)
     if (response.ok) {
       let data = await response.json();
       setQuestions(data);
