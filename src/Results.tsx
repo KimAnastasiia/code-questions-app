@@ -109,7 +109,7 @@ const Results: React.FC<{}> = () => {
       }
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button style={{ width: "50%", marginBottom: 30 }} type='primary' onClick={() => { onClickIntentarOtraVez() }}>Intentar otra vez</Button>
+        <Button style={{ width: "100%", marginBottom: 30 }} type='primary' onClick={() => { onClickIntentarOtraVez() }}>Intentar otra vez</Button>
       </div>
     </>
 

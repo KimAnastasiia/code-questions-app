@@ -208,12 +208,12 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
 
   }
   return (
-    <Row align="middle" justify="center" style={{ backgroundColor: "#EDEEF0" }}>
-      <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", padding: 30 }}>
+
+      <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", padding: 30, margin:30 }}>
         <Form.Item
           rules={[{ required: true, message: 'Please input name of test!' }]}
           label="Nombre de la prueba "
-          labelCol={{ span: 24 }}
+          
         >
           <Input value={name} onChange={(e) => { setName(e.currentTarget.value) }} prefix={<FormOutlined />} placeholder="Nombre de la prueba" />
         </Form.Item>
@@ -223,7 +223,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
             <Form.Item
               label={"pregunta " + (index + 1)}
               rules={[{ required: true, message: 'Desaparecida pregunta' }]}
-              style={{ minWidth: 600, marginTop: 20, fontWeight: 'bold' }}
+              style={{  marginTop: 20, fontWeight: 'bold' }}
               labelCol={{ span: 24 }}
             >
               <TextArea value={question.question} onChange={(e) => { handleInputChange(e, "question", question.numberOfQuestion) }} />
@@ -231,7 +231,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
             <Form.Item
               label="code "
               rules={[{ required: true, message: 'Desaparecida codigo' }]}
-              style={{ minWidth: 600, marginTop: 20 }}
+              style={{ marginTop: 20 }}
               labelCol={{ span: 24 }}
             >
 
@@ -245,7 +245,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
             <Form.Item
               label={"la respuesta A de la pregunta " + (index + 1)}
               rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-              style={{ width: 500 }}
+             
               labelCol={{ span: 24 }}
 
             >
@@ -254,7 +254,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
             <Form.Item
               label={"la respuesta B de la pregunta " + (index + 1)}
               rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-              style={{ width: 500 }}
+           
               labelCol={{ span: 24 }}
             >
               <Input value={question.answer2} onChange={(e) => { handleInputChange(e, "answer2", question.numberOfQuestion) }} ></Input>
@@ -262,7 +262,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
             <Form.Item
               label={"la respuesta C de la pregunta " + (index + 1)}
               rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-              style={{ width: 500 }}
+  
               labelCol={{ span: 24 }}
             >
               <Input value={question.answer3} onChange={(e) => { handleInputChange(e, "answer3", question.numberOfQuestion) }} ></Input>
@@ -272,7 +272,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
               label={"la respuesta D de la pregunta " + (index + 1)}
 
               rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-              style={{ width: 500 }}
+         
               labelCol={{ span: 24 }}
             >
               <Input value={question.answer4} onChange={(e) => { handleInputChange(e, "answer4", question.numberOfQuestion) }} ></Input>
@@ -313,7 +313,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
         </Button>
         <Button type='primary' onClick={() => { editTest(); editName() }} style={{ width: "100%", marginTop: 20 }}>Salvar</Button>
       </Space>
-    </Row>
+    
   );
 };
 

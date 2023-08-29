@@ -75,7 +75,7 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
 
         <List
             dataSource={listOfTests}
-            style={{padding:30, width:"50%",backgroundColor:"white"}}
+            style={{padding:30,backgroundColor:"white"}}
 
             renderItem={(item) => (
 
@@ -87,9 +87,9 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
                 />
                 <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}><DeleteOutlined/>Delete</Button>
                 <Button onClick={()=>{navigate("/test/pass/"+item.email+"/"+item.name+"/"+item.id)}}><CheckCircleOutlined />Aprobar el examen</Button>
-                <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{marginLeft:10}} ><ProfileOutlined />Resultats</Button>
-                <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{marginLeft:10}} ><AreaChartOutlined />Statistic</Button>
-                <Button onClick={()=>{navigate("/test/edit/"+item.id)}} style={{marginLeft:10}} ><EditOutlined />Editar prueba</Button>
+                <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{margin:10}} ><ProfileOutlined />Resultats</Button>
+                <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{margin:10}} ><AreaChartOutlined />Statistic</Button>
+                <Button onClick={()=>{navigate("/test/edit/"+item.id)}}><EditOutlined />Editar prueba</Button>
             
             </List.Item>
 

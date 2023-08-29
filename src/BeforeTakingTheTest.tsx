@@ -32,7 +32,7 @@ const BeforeTakingTheTest:React.FC<{}>=()=>{
   <Row align="middle" justify="center" style = {{ minHeight: '94.7vh', backgroundColor:"#EDEEF0"}}>
     <Form
       initialValues={{ residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86' }}
-      style={{ minWidth: 500, backgroundColor:"white", padding:50  }}
+      style={{ backgroundColor:"white", padding:50  }}
       scrollToFirstError
     >
 { alert&&<Alert

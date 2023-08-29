@@ -61,7 +61,7 @@ const MenuFunction: React.FC = () => {
     <Modal title="¿Estás seguro de que quieres salir?" okType='danger' open={isModalOpen} onOk={logOut} onCancel={handleCancel}  okText="Si"
         cancelText="No">
     </Modal>
-    <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" style={{ display: "flex", justifyContent: "center", width: "60%" }} items={items} />
+    <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" style={{ display: "flex", justifyContent: "center"}} items={items} />
   </>
 
 };

@@ -140,7 +140,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     label="pregunta "
                     name={[field.name, 'pregunta']}
                     rules={[{ required: true, message: 'Desaparecida pregunta' }]}
-                    style={{ minWidth: 600, marginTop: 20 }}
+                    style={{  marginTop: 20 }}
                     labelCol={{ span: 24 }}
                   >
                     <TextArea onChange={(e) => { setQuestion(e.currentTarget.value) }} />
@@ -150,7 +150,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     label="code "
                     name={[field.name, 'code']}
                     rules={[{ required: true, message: 'Desaparecida codigo' }]}
-                    style={{ minWidth: 600, marginTop: 20 }}
+                    style={{  marginTop: 20 }}
                     labelCol={{ span: 24 }}
                   >
 
@@ -166,7 +166,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     label={"la respuesta A de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta1']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                    style={{ width: 500 }}
+               
                     labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer1(e.currentTarget.value) }}></Input>
@@ -176,7 +176,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     label={"la respuesta B de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta2']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                    style={{ width: 500 }}
+               
                     labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer2(e.currentTarget.value) }}></Input>
@@ -186,7 +186,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     label={"la respuesta C de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta3']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                    style={{ width: 500 }}
+          
                     labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer3(e.currentTarget.value) }}></Input>
@@ -196,7 +196,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
                     label={"la respuesta D de la pregunta " + (field.key + 1)}
                     name={[field.name, 'respuesta4']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
-                    style={{ width: 500 }}
+                   
                     labelCol={{ span: 24 }}
                   >
                     <Input onChange={(e) => { setAnswer4(e.currentTarget.value) }}></Input>
@@ -249,7 +249,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
         </Form.Item>
 
       </Form>
-    </Row>
+      </Row>
   );
 };
 

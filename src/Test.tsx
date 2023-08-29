@@ -91,13 +91,12 @@ const Test: React.FC<{}> = () => {
   }
   return (
 
-    <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
-
+<>
       {questions.map((question, i) => {
         if (i == index && i < questions.length) {
 
           return (
-            <div style={{ backgroundColor: "white", minHeight: '70vh', width: "50%", padding: 40 }}>
+            <div style={{ backgroundColor: "white", minHeight: '70vh', padding: 40 }}>
               {alert &&
                 <Alert
                   message="Error"
@@ -137,8 +136,9 @@ const Test: React.FC<{}> = () => {
         }
       }
       )}
+</>
 
-    </Row>
+
 
   );
 }
