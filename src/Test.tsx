@@ -96,7 +96,7 @@ const Test: React.FC<{}> = () => {
         if (i == index && i < questions.length) {
 
           return (
-            <div style={{ backgroundColor: "white", minHeight: '70vh', padding: 40 }}>
+            <div style={{ backgroundColor: "white", minHeight: '70vh', padding: 60 }}>
               {alert &&
                 <Alert
                   message="Error"

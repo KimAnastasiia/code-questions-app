@@ -208,8 +208,11 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
 
   }
   return (
-
-      <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", padding: 30, margin:30 }}>
+    <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0", paddingTop:50}}>
+      <Space align="baseline" style={{ display: "block", marginBottom: 20, backgroundColor: "white", margin:30,padding: 20, borderRadius: "20px" }}>
+        <Form.Item style={{ justifyContent: "center", alignItems: "center", display: "flex" }}>
+          <h2>Edita tu prueba</h2>
+        </Form.Item>
         <Form.Item
           rules={[{ required: true, message: 'Please input name of test!' }]}
           label="Nombre de la prueba "
@@ -313,7 +316,7 @@ const EditTests: React.FC<EditTestsProps> = ({ openNotification }) => {
         </Button>
         <Button type='primary' onClick={() => { editTest(); editName() }} style={{ width: "100%", marginTop: 20 }}>Salvar</Button>
       </Space>
-    
+    </Row>
   );
 };
 

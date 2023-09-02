@@ -95,7 +95,7 @@ const AnswersStatistic = () => {
       dataIndex: 'D',
     },
   ]
-  return  (<Table columns={columns} dataSource={listOfResults} style={{margin:50}}/>)
+  return  (<Table columns={columns} dataSource={listOfResults} style={{padding:50}}/>)
 };
 
 export default AnswersStatistic;

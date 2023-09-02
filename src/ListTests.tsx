@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { NotificationPlacement } from 'antd/es/notification/interface'
-import { Avatar, Row, List, Button } from 'antd';
+import { Form, Row, List, Button } from 'antd';
 import { useNavigate   } from "react-router-dom";
 import { backendUrl } from './Global';
 import { AreaChartOutlined, DeleteOutlined, ProfileOutlined,CheckCircleOutlined,EditOutlined } from '@ant-design/icons';
@@ -71,26 +71,24 @@ const ListTests  :React.FC<ListTestsProps> = ({openNotification})=> {
     
   };
   return  (
-    <Row align="top" justify="center" style = {{ minHeight: '100vh', backgroundColor:"#EDEEF0", paddingTop:40}}>
-
+    <Row align="top" justify="center" style = {{ minHeight: '100vh', backgroundColor:"#EDEEF0", paddingTop:60}}>
         <List
             dataSource={listOfTests}
-            style={{padding:30,backgroundColor:"white"}}
+            style={{padding:30,backgroundColor:"white",borderRadius:"20px"}}
 
             renderItem={(item) => (
-
             <List.Item style={{display:"block"}} key={item.email}>
               
                 <List.Item.Meta
                 title={item.name}
                 description={item.email}
                 />
-                <Button  danger style={{marginRight:10}} onClick={()=>{handleDelete(item.id)}}><DeleteOutlined/>Delete</Button>
-                <Button onClick={()=>{navigate("/test/pass/"+item.email+"/"+item.name+"/"+item.id)}}><CheckCircleOutlined />Aprobar el examen</Button>
+                
+                <Button onClick={()=>{navigate("/test/pass/"+item.email+"/"+item.name+"/"+item.id)}} style={{margin:10}}><CheckCircleOutlined />Aprobar el examen</Button>
+                <Button onClick={()=>{navigate("/test/edit/"+item.id)}} style={{margin:10}}><EditOutlined />Editar prueba</Button>
                 <Button onClick={()=>{navigate("/allResultsOfTest/"+item.id)}} style={{margin:10}} ><ProfileOutlined />Resultats</Button>
                 <Button onClick={()=>{navigate("/answersStatistic/"+item.id)}} style={{margin:10}} ><AreaChartOutlined />Statistic</Button>
-                <Button onClick={()=>{navigate("/test/edit/"+item.id)}}><EditOutlined />Editar prueba</Button>
-            
+                <Button  danger style={{margin:10}}onClick={()=>{handleDelete(item.id)}}><DeleteOutlined/>Delete</Button>
             </List.Item>
 
             )}

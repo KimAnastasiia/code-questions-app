@@ -4,8 +4,10 @@ import type { MenuProps } from 'antd';
 import { Menu, Modal  } from 'antd';
 import { LogoutOutlined, FormOutlined, ContainerOutlined } from '@ant-design/icons';
 import { useNavigate   } from "react-router-dom";
-
-const MenuFunction: React.FC = () => {
+interface MyMenuProps {
+  setGoOut: () => void;
+}
+const MenuFunction: React.FC<MyMenuProps> = ({setGoOut}) => {
 
   const navigate  = useNavigate();
   const [current, setCurrent] = useState('mail');
@@ -20,6 +22,7 @@ const MenuFunction: React.FC = () => {
   const logOut=()=>{
 
     localStorage.removeItem('access_token');
+    setGoOut()
     navigate("/")
     handleCancel()
   }
@@ -61,7 +64,7 @@ const MenuFunction: React.FC = () => {
     <Modal title="¿Estás seguro de que quieres salir?" okType='danger' open={isModalOpen} onOk={logOut} onCancel={handleCancel}  okText="Si"
         cancelText="No">
     </Modal>
-    <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" style={{ display: "flex", justifyContent: "center"}} items={items} />
+    <Menu  onClick={onClick} selectedKeys={[current]} mode="horizontal" style={{ position:"fixed", width:"100%", zIndex:1}} items={items} />
   </>
 
 };

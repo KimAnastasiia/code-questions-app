@@ -109,7 +109,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
     setCode(value)
   }, []);
   return (
-    <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0" }}>
+    <Row align="middle" justify="center" style={{ minHeight: '100vh', backgroundColor: "#EDEEF0", paddingTop:60}}>
 
       <Form
         initialValues={{ remember: true }}
@@ -204,7 +204,7 @@ const CreateTest: React.FC<CreateTestProps> = ({ openNotification }) => {
 
                   <Form.Item
                     {...field}
-                    label="respuesta de verda "
+                    label="respuesta correcta"
                     name={[field.name, 'respuesta']}
                     rules={[{ required: true, message: 'Desaparecida respuesta' }]}
                     style={{ marginRight: 20, fontWeight: 'bold' }}

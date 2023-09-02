@@ -99,7 +99,9 @@ const Login = () => {
 
      console.log(tokenResponse)
      localStorage.setItem('access_token',tokenResponse.access_token);
-     navigate("/createTest")
+     setTimeout(()=>{
+      navigate("/createTest")
+     }, 1000)
     },
   });
     
@@ -116,44 +118,9 @@ const Login = () => {
       <Form.Item>
         <h2>Aplicación para crear tus propias pruebas</h2>
       </Form.Item>
-     {wrongDataAlert.email && <Alert message="Correo electrónico no existe" type="error" showIcon style={{marginBottom:20}}/>}
-      <Form.Item
-        name="email"
-        rules={[{ required: true, message: 'Please input your Email!' }]}
-      >
-        <Input onBlur={checkEmail} prefix={<UserOutlined className="site-form-item-icon" />} onChange={(e)=>{onChange(e, "email")}} placeholder="Email" />
-      </Form.Item>
-      {wrongDataAlert.password && <Alert message="Contraseña incorrecta" type="error" showIcon style={{marginBottom:20}}/>}
-      <Form.Item
-        name="password"
-        rules={[{ required: true, message: 'Please input your Password!' }]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-          onChange={(e)=>{onChange(e, "password")}} 
-        />
-      </Form.Item>
-
+      
       <Form.Item>
-        <a className="login-form-forgot" href="/checkEmail">
-          Forgot password
-        </a>
-      </Form.Item>
-
-      <Form.Item style={{justifyContent:"center", alignItems:"center", display:"flex"}}>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
-        </Button>
-      </Form.Item>
-      <Form.Item style={{justifyContent:"center", alignItems:"center", display:"flex"}}>
-        <Button type="default" onClick={()=>{navigate("/registration")}}>
-          Registracion
-        </Button>
-      </Form.Item>
-      <Form.Item  style={{justifyContent:"center", alignItems:"center", display:"flex"}}>
-      <Button onClick={() => login()}>  Sign in with Google 🚀</Button>
+        <Button style={{width:"100%"}} onClick={() => login()}>  Sign in with Google 🚀</Button>
       </Form.Item>
     </Form>
   </Row>
