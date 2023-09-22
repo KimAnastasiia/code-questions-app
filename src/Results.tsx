@@ -71,7 +71,7 @@ const Results: React.FC<{}> = () => {
   return (
 
     <>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center", paddingTop:60}}>
         <Statistic title="Tu resultado" value={rightAnswers} />
       </div>
       {results.map((result) => {
